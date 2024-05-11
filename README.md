@@ -1,4 +1,4 @@
-# Welcome to Shrimp!Shrimp! Auto-Stock-Trading respository
+# Welcome to Shrimp!Shrimp! TwTrip respository
 
 ## Development Guide
 
