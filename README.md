@@ -48,7 +48,8 @@
 > 安裝好自動會在git commit觸發 或是 可以手動執行 pre-commit run --all-files
 > After install pre-commit, press ctrl + shift + P (Windows/Linux) or cmd + shift + P (MacOS) and type settgins to find "Preferences: Open Settings(JSON)"
 > add the code below into "settings.json" in order to use formatter and ruff plugin
-> `{
+> ```
+> {
 >       "[python]" :{
 >             "editor.formatOnSave": true,
 >             "editor.codeActionsOnSave": {
@@ -63,4 +64,5 @@
 >       "ruff.organizeImports": true,
 >       "ruff.fixAll": true,
 >       "ruff.showNotifications": "onError"
-> }`
+> }
+> ```
