@@ -1,4 +1,4 @@
-# Welcome to Shrimp!Shrimp! TwTrip respository
+# Welcome to Shrimp!Shrimp! ECO respository
 
 ## Development Guide
 
