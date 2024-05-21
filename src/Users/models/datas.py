@@ -1,4 +1,36 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from enumfields import EnumField
+
+from ..schema import CommuteMethod
+
+
+class FootPrint(models.Model):
+    distance: float = models.FloatField(
+        default=0.0,
+        help_text="移動距離(km)",
+        validators=(MinValueValidator(0), MaxValueValidator(100000)),
+    )
+    method: CommuteMethod = EnumField(
+        CommuteMethod,
+        default=CommuteMethod.Mrt,
+        max_length=10,
+        help_text="通勤交通方式",
+    )
+    date = models.DateTimeField(
+        "活動時間",
+        auto_now_add=True,
+    )
+    carbon_footprint = models.FloatField(
+        default=0.0,
+        verbose_name="累計碳足跡",
+        validators=(MinValueValidator(0), MaxValueValidator(100000)),
+    )
+    """
+    user_id=models.ForeignKey(
+
+    )
+    """
 
 
 class Waste(models.Model):
@@ -20,7 +52,11 @@ class Leftover(models.Model):
     provider = models.CharField(max_length=10, null=False)
     date_put_in = models.DateTimeField(auto_now_add=True)
     label = models.DateTimeField(max_length=20, null=False)
-    portion = models.CharField(max_length=20, null=False)
+    portion = models.CharField(
+        max_length=20,
+        null=False,
+        validators=(MinValueValidator(0), MaxValueValidator(1000)),
+    )
     sent_to = models.CharField(max_length=20)
     status = models.CharField(max_length=20)
 

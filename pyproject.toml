@@ -4,13 +4,14 @@ version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
 readme = "README.md"
-packages = [{include = "ECO" ,from=".."}]
+packages = [{include = "ECO", from=".."}]
 
 [tool.poetry.dependencies]
 python = "^3.10 ,<3.11"
 pre-commit = "^3.7.0"
 ruff = "^0.4.3"
 django = "^5.0.6"
+django-enumfields = "^2.1.1"
 
 
 [build-system]

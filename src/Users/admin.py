@@ -1,8 +1,7 @@
 # Register your models here.
 from django.contrib import admin
 
-from Users.models.datas import Leftover, Waste
-from Users.models.user_info import User
+from .models import FootPrint, Leftover, User, Waste
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -17,6 +16,11 @@ class LeftoverAdmin(admin.ModelAdmin):
     list_display = ["id", "item", "provider", "sent_to"]
 
 
+class FootPrintAdmin(admin.ModelAdmin):
+    list_display = ["distance", "date", "method", "carbon_footprint"]
+
+
 admin.site.register(User, UserAdmin)
 admin.site.register(Waste, WasteAdmin)
 admin.site.register(Leftover, LeftoverAdmin)
+admin.site.register(FootPrint, FootPrintAdmin)
