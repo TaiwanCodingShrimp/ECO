@@ -60,6 +60,17 @@ argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
 
 [[package]]
+name = "django-enumfields"
+version = "2.1.1"
+description = "Real Python Enums for Django."
+optional = false
+python-versions = "*"
+files = [
+    {file = "django-enumfields-2.1.1.tar.gz", hash = "sha256:f64841732a9c343f5071220e0abcf5f51c9472c06e3c33d7c6a7ec27b6087561"},
+    {file = "django_enumfields-2.1.1-py3-none-any.whl", hash = "sha256:d32f2151801a5fc13c860276ee99495c2c9345e0a4281d0104276c39ddb22807"},
+]
+
+[[package]]
 name = "filelock"
 version = "3.14.0"
 description = "A platform independent file lock."
@@ -299,4 +310,4 @@ test = ["covdefaults (>=2.3)", "coverage (>=7.2.7)", "coverage-enable-subprocess
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10 ,<3.11"
-content-hash = "72e100b45c24cc97dbb833f1c79a19881d916d2914590132c21a178a1736b55a"
+content-hash = "9100c34f667dc3c4188aed3de6034c804f884282828f00441c3c9d6b84e9ad18"
