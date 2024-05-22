@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class Organization_type(Enum):
+class OrganizationType(Enum):
     Government = "government"
     Education = "education"
     Medical = "medical"
