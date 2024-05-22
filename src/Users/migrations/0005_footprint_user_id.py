@@ -2,7 +2,7 @@
 
 import django.db.models.deletion
 from django.db import migrations, models
-
+from django_add_default_value import AddDefaultValue
 
 class Migration(migrations.Migration):
     dependencies = [
