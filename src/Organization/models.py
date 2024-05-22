@@ -2,7 +2,7 @@
 from django.db import models
 from enumfields import EnumField
 
-from .schema import Organization_type
+from .schema import OrganizationType
 
 
 class Welfare_Organization(models.Model):
