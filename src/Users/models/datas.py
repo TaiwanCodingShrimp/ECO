@@ -39,8 +39,8 @@ class Waste(models.Model):
     sent_to = models.CharField(max_length=20)
     status = models.CharField(max_length=20)
 
-    def __int__(self) -> int:
-        return self.id
+    def __str__(self) -> str:
+        return str(self.id)
 
 
 class Leftover(models.Model):
@@ -57,5 +57,5 @@ class Leftover(models.Model):
     sent_to = models.CharField(max_length=20)
     status = models.CharField(max_length=20)
 
-    def __int__(self) -> int:
-        return self.id
+    def __str__(self) -> str:
+        return str(self.id)
