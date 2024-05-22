@@ -1,10 +1,7 @@
 # Register your models here.
 from django.contrib import admin
 
-from .models import Food_Bank as fb
-from .models import Welfare_Organization as wo
-
-__all__ = [admin, wo, fb]
+from .models import Food_Bank, Welfare_Organization
 
 
 class WoAdmin(admin.ModelAdmin):
@@ -15,5 +12,5 @@ class FbAdmin(admin.ModelAdmin):
     list_display = ["id", "name", "county", "contact"]
 
 
-admin.site.register(wo, WoAdmin)
-admin.site.register(fb, FbAdmin)
+admin.site.register(Welfare_Organization, WoAdmin)
+admin.site.register(Food_Bank, FbAdmin)

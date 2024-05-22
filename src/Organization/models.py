@@ -1,17 +1,22 @@
 # Create your models here.
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from enumfields import EnumField
 
-__all__ = [MaxValueValidator, MinValueValidator, models]
+from .schema import Organization_type
 
 
 class Welfare_Organization(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=20, null=False)
-    county = models.CharField(max_length=20, null=False)
-    district = models.CharField(max_length=20, null=False)
-    type = models.CharField(max_length=10, null=False)
-    phone = models.CharField(max_length=10, null=False)
+    name = models.CharField(max_length=20)
+    county = models.CharField(max_length=20)
+    district = models.CharField(max_length=20)
+    type: Organization_type = EnumField(
+        Organization_type,
+        default=Organization_type.Government,
+        max_length=10,
+        help_text="所屬類型",
+    )
+    phone = models.CharField(max_length=10)
 
     def __str__(self) -> str:
         return str(self.id)
@@ -19,9 +24,9 @@ class Welfare_Organization(models.Model):
 
 class Food_Bank(models.Model):
     id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=20, null=False)
-    county = models.CharField(max_length=20, null=False)
-    address = models.CharField(max_length=20, null=False)
+    name = models.CharField(max_length=20)
+    county = models.CharField(max_length=20)
+    address = models.CharField(max_length=20)
     contact = models.CharField(max_length=20)
 
     def __str__(self) -> str:
