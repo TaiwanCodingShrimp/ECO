@@ -16,5 +16,10 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(
                 default=0, on_delete=django.db.models.deletion.CASCADE, to="Users.user"
             ),
+            AddDefaultValue(
+            model_name="footprint",
+            name="user_id",
+            value=0,
+        ),
         ),
     ]
