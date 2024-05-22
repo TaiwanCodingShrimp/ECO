@@ -12,7 +12,7 @@ class Welfare_Organization(models.Model):
     district = models.CharField(max_length=20)
     type: Organization_type = EnumField(
         OrganizationType,
-        default=Organization_type.Government,
+        default=OrganizationType.Government,
         max_length=10,
         help_text="所屬類型",
     )
