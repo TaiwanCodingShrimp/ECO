@@ -11,7 +11,7 @@ class Welfare_Organization(models.Model):
     county = models.CharField(max_length=20)
     district = models.CharField(max_length=20)
     type: Organization_type = EnumField(
-        Organization_type,
+        OrganizationType,
         default=Organization_type.Government,
         max_length=10,
         help_text="所屬類型",
