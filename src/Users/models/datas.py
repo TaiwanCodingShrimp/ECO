@@ -3,6 +3,7 @@ from django.db import models
 from enumfields import EnumField
 
 from ..schema import CommuteMethod
+from .user_info import User
 
 
 class FootPrint(models.Model):
@@ -26,11 +27,7 @@ class FootPrint(models.Model):
         verbose_name="累計碳足跡",
         validators=(MinValueValidator(0), MaxValueValidator(100000)),
     )
-    """
-    user_id=models.ForeignKey(
-
-    )
-    """
+    user_id: User = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
 
 
 class Waste(models.Model):
@@ -42,8 +39,8 @@ class Waste(models.Model):
     sent_to = models.CharField(max_length=20)
     status = models.CharField(max_length=20)
 
-    def __int__(self) -> int:
-        return self.id
+    def __str__(self) -> str:
+        return str(self.id)
 
 
 class Leftover(models.Model):
@@ -60,5 +57,5 @@ class Leftover(models.Model):
     sent_to = models.CharField(max_length=20)
     status = models.CharField(max_length=20)
 
-    def __int__(self) -> int:
-        return self.id
+    def __str__(self) -> str:
+        return str(self.id)
