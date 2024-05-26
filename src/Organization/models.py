@@ -5,12 +5,12 @@ from enumfields import EnumField
 from .schema import OrganizationType
 
 
-class Welfare_Organization(models.Model):
+class WelfareOrganization(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20)
     county = models.CharField(max_length=20)
     district = models.CharField(max_length=20)
-    type: Organization_type = EnumField(
+    type: OrganizationType = EnumField(
         OrganizationType,
         default=OrganizationType.Government,
         max_length=10,
