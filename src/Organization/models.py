@@ -6,10 +6,10 @@ from .schema import OrganizationType
 
 
 class WelfareOrganization(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=20)
-    county = models.CharField(max_length=20)
-    district = models.CharField(max_length=20)
+    id: int = models.AutoField(primary_key=True)
+    name: str = models.CharField(max_length=20)
+    county: str = models.CharField(max_length=20)
+    district: str = models.CharField(max_length=20)
     type: OrganizationType = EnumField(
         OrganizationType,
         default=OrganizationType.Government,
@@ -23,11 +23,11 @@ class WelfareOrganization(models.Model):
 
 
 class Food_Bank(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=20)
-    county = models.CharField(max_length=20)
-    address = models.CharField(max_length=20)
-    contact = models.CharField(max_length=20)
+    id: int = models.AutoField(primary_key=True)
+    name: str = models.CharField(max_length=20)
+    county: str = models.CharField(max_length=20)
+    address: str = models.CharField(max_length=20)
+    contact: str = models.CharField(max_length=20)
 
     def __str__(self) -> str:
         return str(self.id)
