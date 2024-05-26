@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<body>
+    <h1>歡迎, {{ user.email }}!</h1>
+    <p>這是您的個人首頁。</p>
+    <a href="{% url 'logout' %}">登出</a>
+</body>
+</html>

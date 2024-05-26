@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "Organization",
     "Board",
     "Report",
+    "Frontend",
 ]
 
 MIDDLEWARE = [
@@ -103,7 +104,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+AUTH_USER_MODEL = "Users.User"
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
