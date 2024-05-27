@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %}Board - 我的網站{% endblock %}
-
 {% block content %}
-<h1>Board 功能頁面</h1>
-<p>這是 Board 功能的內容。</p>
-
+<div class="container mt-5">
+    <h1>留言板</h1>
+    <a href="{% url 'createboard' %}" class="btn btn-primary mb-3">新增留言</a>
+    <div class="list-group">
+        {% for board in boards %}
+            <a href="{% url 'board_detail' board_id=board.board_id %}" class="list-group-item list-group-item-action">
+                <h5 class="mb-1">{{ board.topic }}</h5>
+                <p class="mb-1">{{ board.content }}</p>
+                <small class="text-muted">由 {{ board.user_id }} 在 {{ board.date|date:"Y-m-d" }} 發表</small>
+            </a>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

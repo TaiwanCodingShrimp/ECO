@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>{{ board.topic }}</h1>
+    <p>{{ board.content }}</p>
+    <small class="text-muted">由 {{ board.user_id }} 在 {{ board.date|date:"Y-m-d" }} 發表</small>
+    <hr>
+    <a href="{% url 'board' %}" class="btn btn-secondary">返回留言板</a>
+</div>
+{% endblock %}
