@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}我的網站{% endblock %}</title>
+    {% comment %} <link rel="stylesheet" href="{% static 'css/style.css' %}"> {% endcomment %}
+</head>
+<body>
+    <header>
+        <h1>我的網站</h1>
+        {% comment %} <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">首頁</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'board' %}">Board</a></li>
+                    <li><a href="{% url 'organization' %}">Organization</a></li>
+                    <li><a href="{% url 'report' %}">Report</a></li>
+                    <li><a href="{% url 'users' %}">Users</a></li>
+                    <li>
+                        <form method="post" action="{% url 'logout' %}">
+                            {% csrf_token %}
+                            <button type="submit">登出</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">登入</a></li>
+                    <li><a href="{% url 'signup' %}">註冊</a></li>
+                {% endif %}
+            </ul>
+        </nav> {% endcomment %}
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>版權所有 &copy; 2024</p>
+    </footer>
+</body>
+</html>

@@ -6,7 +6,7 @@ from Users.forms import LoginForm, SignUpForm
 
 
 def index_view(request):
-    return render(request, "frontend/index.html")
+    return render(request, "index.html")
 
 
 def signup_view(request):
@@ -22,7 +22,7 @@ def signup_view(request):
                 return redirect("home")
     else:
         form = SignUpForm()
-    return render(request, "frontend/signup.html", {"form": form})
+    return render(request, "signup.html", {"form": form})
 
 
 def login_view(request):
@@ -37,7 +37,7 @@ def login_view(request):
                 return redirect("home")
     else:
         form = LoginForm()
-    return render(request, "frontend/login.html", {"form": form})
+    return render(request, "login.html", {"form": form})
 
 
 def logout_view(request):
@@ -47,4 +47,22 @@ def logout_view(request):
 
 @login_required
 def home_view(request):
-    return render(request, "frontend/home.html")
+    user = request.user
+    username = user.email
+    return render(request, "home.html", locals())
+
+
+def board_view(request):
+    return render(request, "board.html")
+
+
+def organization_view(request):
+    return render(request, "organization.html")
+
+
+def report_view(request):
+    return render(request, "report.html")
+
+
+def users_view(request):
+    return render(request, "users.html")
