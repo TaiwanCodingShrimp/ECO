@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from Board.forms import BoardForm
 from Board.models import Board
+
 from Users.forms import LoginForm, SignUpForm
 
 
@@ -54,6 +55,7 @@ def home_view(request):
     return render(request, "home.html", locals())
 
 
+
 @login_required
 def board_view(request):
     boards = Board.objects.all()
@@ -61,8 +63,10 @@ def board_view(request):
 
 
 @login_required
+
 def organization_view(request):
     return render(request, "organization.html")
+
 
 
 @login_required
@@ -94,3 +98,4 @@ def create_board_view(request):
 def board_detail_view(request, board_id):
     board = get_object_or_404(Board, pk=board_id)
     return render(request, "boarddetail.html", {"board": board})
+
