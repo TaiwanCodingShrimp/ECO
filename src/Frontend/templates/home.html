@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}首頁 - 我的網站{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">歡迎來到首頁</h1>
+    {% if user.is_authenticated %}
+        <p>你已成功登入</p>
+    {% endif %}
+</div>
+{% endblock %}
