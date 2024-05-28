@@ -1,26 +1,42 @@
-# Register your models here.
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import Group
 
-from .models import FootPrint, Leftover, User, Waste
-
-
-class UserAdmin(admin.ModelAdmin):
-    list_display = ["users_id", "title", "email"]
-
-
-class WasteAdmin(admin.ModelAdmin):
-    list_display = ["id", "item", "provider", "sent_to"]
+from .forms import UserChangeForm, UserCreationForm
+from .models import User
 
 
-class LeftoverAdmin(admin.ModelAdmin):
-    list_display = ["id", "item", "provider", "sent_to"]
+class UserAdmin(BaseUserAdmin):
+    form = UserChangeForm
+    add_form = UserCreationForm
 
-
-class FootPrintAdmin(admin.ModelAdmin):
-    list_display = ["distance", "date", "method", "carbon_footprint"]
+    list_display = ("email", "title", "phone", "location", "is_staff", "is_superuser")
+    list_filter = ("is_staff", "is_superuser", "is_active")
+    fieldsets = (
+        (None, {"fields": ("email", "password")}),
+        ("Personal info", {"fields": ("title", "phone", "location")}),
+        ("Permissions", {"fields": ("is_staff", "is_superuser", "is_active")}),
+    )
+    add_fieldsets = (
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": (
+                    "email",
+                    "title",
+                    "phone",
+                    "location",
+                    "password1",
+                    "password2",
+                ),
+            },
+        ),
+    )
+    search_fields = ("email",)
+    ordering = ("email",)
+    filter_horizontal = ()
 
 
 admin.site.register(User, UserAdmin)
-admin.site.register(Waste, WasteAdmin)
-admin.site.register(Leftover, LeftoverAdmin)
-admin.site.register(FootPrint, FootPrintAdmin)
+admin.site.unregister(Group)

@@ -27,10 +27,8 @@ class FootPrint(models.Model):
         verbose_name="累計碳足跡",
         validators=(MinValueValidator(0), MaxValueValidator(100000)),
     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
-    def __str__(self):
-        return f"{self.user} - {self.distance} km - {self.method}"
+    user_id: User = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
 
 class Waste(models.Model):
