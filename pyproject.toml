@@ -12,6 +12,8 @@ pre-commit = "^3.7.0"
 ruff = "^0.4.3"
 django = "^5.0.6"
 django-enumfields = "^2.1.1"
+pandas = "^2.2.2"
+ipython = "^8.24.0"
 
 
 [build-system]

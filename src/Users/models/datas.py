@@ -7,12 +7,12 @@ from .user_info import User
 
 
 class FootPrint(models.Model):
-    distance: float = models.FloatField(
+    distance = models.FloatField(
         default=0.0,
         help_text="移動距離(km)",
         validators=(MinValueValidator(0), MaxValueValidator(100000)),
     )
-    method: CommuteMethod = EnumField(
+    method = EnumField(
         CommuteMethod,
         default=CommuteMethod.Mrt,
         max_length=10,
@@ -27,7 +27,10 @@ class FootPrint(models.Model):
         verbose_name="累計碳足跡",
         validators=(MinValueValidator(0), MaxValueValidator(100000)),
     )
-    user_id: User = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user} - {self.distance} km - {self.method}"
 
 
 class Waste(models.Model):
