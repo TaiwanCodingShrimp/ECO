@@ -4,6 +4,7 @@
 
 {% block content %}
 <h1>歡迎來到我的網站</h1>
+
 {% if user.is_authenticated %}
     <p>您好，{{ user.username }}！</p>
     <ul>
@@ -21,4 +22,5 @@
     <a href="{% url 'login' %}">登入</a>
     <a href="{% url 'signup' %}">註冊</a>
 {% endif %}
+
 {% endblock %}

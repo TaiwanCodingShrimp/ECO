@@ -10,11 +10,20 @@
     <header class="bg-primary text-white text-center py-3">
         <h1>我的網站</h1>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            {% if user.is_authenticated %}
             <div class="container">
-                <a class="navbar-brand" href="{% url 'home' %}">首頁</a>
+                <a class="navbar-brand" href="{% url "home" %}">首頁</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+            {% else %}
+            <div class="container">
+                <a class="navbar-brand" href="{% url "index" %}">首頁</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            {% endif %}
+
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         {% if user.is_authenticated %}
