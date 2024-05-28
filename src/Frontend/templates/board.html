@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
 <div class="container mt-5">
     <h1>留言板</h1>
@@ -9,8 +8,7 @@
         {% for board in boards %}
             <a href="{% url 'board_detail' board_id=board.board_id %}" class="list-group-item list-group-item-action">
                 <h5 class="mb-1">{{ board.topic }}</h5>
-                <p class="mb-1">{{ board.content }}</p>
-                <small class="text-muted">由 {{ board.user_id }} 在 {{ board.date|date:"Y-m-d" }} 發表</small>
+                <small class="text-muted">由 {{ board.user }} 在 {{ board.date|date:"Y-m-d" }} 發表</small>
             </a>
         {% endfor %}
     </div>

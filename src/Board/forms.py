@@ -15,3 +15,11 @@ class BoardForm(forms.ModelForm):
             "fb_id",
             "wo_id",
         ]
+        widgets = {
+            "title": forms.TextInput(
+                attrs={"class": "form-control", "placeholder": "標題"}
+            ),
+            "content": forms.Textarea(
+                attrs={"class": "form-control", "placeholder": "內容", "rows": 5}
+            ),
+        }

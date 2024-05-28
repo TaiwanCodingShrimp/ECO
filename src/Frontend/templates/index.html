@@ -5,22 +5,4 @@
 {% block content %}
 <h1>歡迎來到我的網站</h1>
 
-{% if user.is_authenticated %}
-    <p>您好，{{ user.username }}！</p>
-    <ul>
-        <li><a href="{% url 'home' %}">主頁</a></li>
-        <li><a href="{% url 'board' %}">Board</a></li>
-        <li><a href="{% url 'organization' %}">Organization</a></li>
-        <li><a href="{% url 'report' %}">Report</a></li>
-        <li><a href="{% url 'users' %}">Users</a></li>
-    </ul>
-    <form method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">登出</button>
-    </form>
-{% else %}
-    <a href="{% url 'login' %}">登入</a>
-    <a href="{% url 'signup' %}">註冊</a>
-{% endif %}
-
 {% endblock %}
