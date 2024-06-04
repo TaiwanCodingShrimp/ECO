@@ -5,7 +5,7 @@ from .models import Food_Bank, WelfareOrganization
 
 
 class WoAdmin(admin.ModelAdmin):
-    list_display = ["id", "name", "county", "phone"]
+    list_display = ["id", "name", "county", "district", "address", "type", "phone"]
 
 
 class FbAdmin(admin.ModelAdmin):
