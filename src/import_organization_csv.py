@@ -9,7 +9,7 @@ import pandas as pd
 from Organization.models import WelfareOrganization
 
 # 讀取 CSV 文件
-csv_file_path = 'welfare_organization_data.csv'
+csv_file_path = 'res/welfare_organization_data.csv'
 df = pd.read_csv(csv_file_path, nrows = 50)
 
 # 將數據插入到數據庫中
