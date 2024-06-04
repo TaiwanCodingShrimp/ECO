@@ -54,6 +54,5 @@ repos:
       # Run the linter.
       - id: ruff
         args: [ --fix ]
-        ignore: ["B007"]
       # Run the formatter.
       - id: ruff-format

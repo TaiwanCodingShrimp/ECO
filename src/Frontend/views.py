@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from Board.forms import BoardForm
 from Board.models import Board
+from Organization.models import WelfareOrganization
 from Users.forms import LoginForm, SignUpForm
 
 
@@ -61,8 +62,35 @@ def board_view(request):
 
 
 @login_required
-def organization_view(request):
-    return render(request, "organization.html")
+def organizations_view(request):
+    county = request.GET.get("county")
+    district = request.GET.get("district")
+
+    if county and district:
+        organizations = WelfareOrganization.objects.filter(
+            county=county, district=district
+        )
+    elif county:
+        organizations = WelfareOrganization.objects.filter(county=county)
+    else:
+        organizations = WelfareOrganization.objects.all()
+
+    counties = WelfareOrganization.objects.values_list("county", flat=True).distinct()
+    districts = WelfareOrganization.objects.values_list(
+        "district", flat=True
+    ).distinct()
+
+    return render(
+        request,
+        "organizations.html",
+        {
+            "organizations": organizations,
+            "counties": counties,
+            "districts": districts,
+            "selected_county": county,
+            "selected_district": district,
+        },
+    )
 
 
 @login_required
