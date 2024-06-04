@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 
 from .forms import BoardForm
@@ -12,7 +11,6 @@ class BoardAdmin(admin.ModelAdmin):
         "user",
         "topic",
         "date",
-
         "leftover_item",
         "waste_item",
         "fb_id",
@@ -33,7 +31,6 @@ class BoardAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.user = request.user
         super().save_model(request, obj, form, change)
-
 
 
 admin.site.register(Board, BoardAdmin)

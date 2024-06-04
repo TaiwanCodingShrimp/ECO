@@ -16,7 +16,8 @@ class WelfareOrganization(models.Model):
         max_length=10,
         help_text="所屬類型",
     )
-    phone = models.CharField(max_length=10)
+    phone: str = models.CharField(max_length=10)
+    address: str = models.CharField(max_length=60, null=True)
 
     def __str__(self) -> str:
         return str(self.id)
