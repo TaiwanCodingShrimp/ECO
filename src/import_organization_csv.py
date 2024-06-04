@@ -25,7 +25,6 @@ for index, row in df.iterrows():
             name=row['name'],
             country=country,
             district=district,
-            type='default_type'  #先設為default
         )
     )
 
