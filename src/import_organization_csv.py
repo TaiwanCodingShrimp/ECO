@@ -22,7 +22,6 @@ for index, row in df.iterrows():
 
     welfare_agencies.append(
         WelfareOrganization(
-            id=row['id'],
             name=row['name'],
             country=country,
             district=district,
