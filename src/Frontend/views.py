@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from Board.forms import BoardForm
 from Board.models import Board
-from Organization.models import WelfareOrganization
+from Organization.models import Food_Bank, WelfareOrganization
 from Users.forms import LoginForm, SignUpForm
 
 
@@ -63,34 +63,48 @@ def board_view(request):
 
 @login_required
 def organizations_view(request):
-    county = request.GET.get("county")
-    district = request.GET.get("district")
+    selected_type = request.GET.get("type", "organization")
+    selected_county = request.GET.get("county", "")
+    selected_district = request.GET.get("district", "")
 
-    if county and district:
-        organizations = WelfareOrganization.objects.filter(
-            county=county, district=district
-        )
-    elif county:
-        organizations = WelfareOrganization.objects.filter(county=county)
+    if selected_type == "organization":
+        model = WelfareOrganization
+    elif selected_type == "food_bank":
+        model = Food_Bank
     else:
-        organizations = WelfareOrganization.objects.all()
+        model = None
 
-    counties = WelfareOrganization.objects.values_list("county", flat=True).distinct()
-    districts = WelfareOrganization.objects.values_list(
-        "district", flat=True
-    ).distinct()
+    if model:
+        counties = model.objects.values_list("county", flat=True).distinct()
+        if selected_county:
+            districts = (
+                model.objects.filter(county=selected_county)
+                .values_list("district", flat=True)
+                .distinct()
+            )
+        else:
+            districts = model.objects.values_list("district", flat=True).distinct()
 
-    return render(
-        request,
-        "organizations.html",
-        {
-            "organizations": organizations,
-            "counties": counties,
-            "districts": districts,
-            "selected_county": county,
-            "selected_district": district,
-        },
-    )
+        organizations = model.objects.all()
+        if selected_county:
+            organizations = organizations.filter(county=selected_county)
+        if selected_district:
+            organizations = organizations.filter(district=selected_district)
+    else:
+        counties = []
+        districts = []
+        organizations = []
+
+    # 將過濾後的數據傳遞給模板
+    context = {
+        "selected_type": selected_type,
+        "counties": counties,
+        "districts": districts,
+        "organizations": organizations,
+        "selected_county": selected_county,
+        "selected_district": selected_district,
+    }
+    return render(request, "organizations.html", context)
 
 
 @login_required
@@ -100,7 +114,8 @@ def report_view(request):
 
 @login_required
 def users_view(request):
-    return render(request, "users.html")
+    users = request.user
+    return render(request, "users.html", {"users": users})
 
 
 @login_required

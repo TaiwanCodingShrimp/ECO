@@ -24,6 +24,6 @@ urlpatterns = [
     path("home/board/createboard/", create_board_view, name="createboard"),
     path("home/board/<int:board_id>/", board_detail_view, name="board_detail"),
     path("home/organizations/", organizations_view, name="organizations"),
-    path("home/report/", report_view, name="report"),
+    path("home/users/report/", report_view, name="report"),
     path("home/users/", users_view, name="users"),
 ]

@@ -9,7 +9,7 @@ class WoAdmin(admin.ModelAdmin):
 
 
 class FbAdmin(admin.ModelAdmin):
-    list_display = ["id", "name", "county", "contact"]
+    list_display = ["id", "name", "county", "district", "address", "contact"]
 
 
 admin.site.register(WelfareOrganization, WoAdmin)

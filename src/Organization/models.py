@@ -27,6 +27,7 @@ class Food_Bank(models.Model):
     id: int = models.AutoField(primary_key=True)
     name: str = models.CharField(max_length=20)
     county: str = models.CharField(max_length=20)
+    district: str = models.CharField(max_length=20, default=" ")
     address: str = models.CharField(max_length=20)
     contact: str = models.CharField(max_length=20)
 

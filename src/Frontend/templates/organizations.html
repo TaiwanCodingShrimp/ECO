@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %}篩選社福機構{% endblock %}
+{% block title %}篩選社福機構和食物銀行{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1 class="mt-4">篩選社福機構</h1>
+    <h1 class="mt-4">選擇附近的社福機構和食物銀行</h1>
     <form method="GET" class="form-inline my-4">
+        <div class="form-group mr-2">
+            <label for="type" class="mr-2">選擇類型:</label>
+            <select id="type" name="type" class="form-control" onchange="this.form.submit()">
+                <option value="organization" {% if selected_type == 'organization' %}selected{% endif %}>社福機構</option>
+                <option value="food_bank" {% if selected_type == 'food_bank' %}selected{% endif %}>食物銀行</option>
+            </select>
+        </div>
         <div class="form-group mr-2">
             <label for="county" class="mr-2">選擇縣市:</label>
             <select id="county" name="county" class="form-control" onchange="this.form.submit()">
@@ -32,11 +39,15 @@
             <li class="list-group-item">
                 <strong>{{ org.name }}</strong><br>
                 地址: {{ org.address }}<br>
+                {% if selected_type == 'organization' %}
                 電話: {{ org.phone }}
+                {% else %}
+                聯絡方式: {{ org.contact }}
+                {% endif %}
             </li>
         {% endfor %}
         {% if organizations|length == 0 %}
-            <li class="list-group-item">沒有找到符合條件的社福機構。</li>
+            <li class="list-group-item">沒有找到符合條件的結果。</li>
         {% endif %}
     </ul>
 </div>
