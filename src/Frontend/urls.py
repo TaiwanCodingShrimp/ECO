@@ -8,7 +8,7 @@ from .views import (
     index_view,
     login_view,
     logout_view,
-    organization_view,
+    organizations_view,
     report_view,
     signup_view,
     users_view,
@@ -23,7 +23,7 @@ urlpatterns = [
     path("home/board/", board_view, name="board"),
     path("home/board/createboard/", create_board_view, name="createboard"),
     path("home/board/<int:board_id>/", board_detail_view, name="board_detail"),
-    path("home/organization/", organization_view, name="organization"),
+    path("home/organizations/", organizations_view, name="organizations"),
     path("home/report/", report_view, name="report"),
     path("home/users/", users_view, name="users"),
 ]
