@@ -72,8 +72,3 @@ class Leftover(models.Model):
     def __str__(self) -> str:
         return str(self.id)
     
-    @property
-    def carbon_footprint(self):
-        if self.item:
-            return self.item.carbon_footprint
-        return None
