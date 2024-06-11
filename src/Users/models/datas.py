@@ -2,32 +2,45 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from enumfields import EnumField
 
-from ..schema import CommuteMethod
+from ..schema import CarbonFootprintReportData, CommuteMethod
 from .user_info import User
 
 
 class FootPrint(models.Model):
-    distance: float = models.FloatField(
+    distance = models.FloatField(
         default=0.0,
         help_text="移動距離(km)",
         validators=(MinValueValidator(0), MaxValueValidator(100000)),
     )
-    method: CommuteMethod = EnumField(
+    method = EnumField(
         CommuteMethod,
-        default=CommuteMethod.Mrt,
-        max_length=10,
+        default=CommuteMethod.Car,
+        max_length=20,
         help_text="通勤交通方式",
     )
-    date = models.DateTimeField(
-        "活動時間",
-        auto_now_add=True,
-    )
+    date = models.DateTimeField("活動時間")
     carbon_footprint = models.FloatField(
         default=0.0,
         verbose_name="累計碳足跡",
         validators=(MinValueValidator(0), MaxValueValidator(100000)),
     )
-    user_id: User = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    users_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+    def update_carbon_footprint(self):
+        self.carbon_footprint = self.get_carbon_footprint()
+
+    def get_carbon_footprint(self):
+        return self._get_carbon_footprint() or 0
+
+    def _get_carbon_footprint(self):
+        commute_distance = {"commute_distance": self.distance}
+        commute_footprint_data = CarbonFootprintReportData(**commute_distance)
+        carbon_footprints = commute_footprint_data.commute_carbon_footprints()
+        return getattr(carbon_footprints, self.method.value)
+
+    def save(self, *args, **kwargs):
+        self.update_carbon_footprint()
+        super().save(*args, **kwargs)
 
 
 class Waste(models.Model):
@@ -42,21 +55,24 @@ class Waste(models.Model):
     def __str__(self) -> str:
         return str(self.id)
 
+
 class Food_Table(models.Model):
     item = models.CharField(max_length=20, primary_key=True)
     carbon_footprint = models.FloatField(
         default=0.0,
         help_text="對應碳足跡",
-        validators=[MinValueValidator(0), MaxValueValidator(10000)], 
+        validators=[MinValueValidator(0), MaxValueValidator(10000)],
     )
 
-    def __str__(self)-> str:
+    def __str__(self) -> str:
         return str(self.carbon_footprint)
-    
+
 
 class Leftover(models.Model):
     id = models.AutoField(primary_key=True)
-    item: Food_Table = models.ForeignKey(Food_Table, on_delete=models.CASCADE, null=True)
+    item: Food_Table = models.ForeignKey(
+        Food_Table, on_delete=models.CASCADE, null=True
+    )
     # item = models.CharField(max_length=20, null=False)
     provider = models.CharField(max_length=10, null=False)
     date_put_in = models.DateTimeField(auto_now_add=True)
@@ -69,6 +85,8 @@ class Leftover(models.Model):
     sent_to = models.CharField(max_length=20)
     status = models.CharField(max_length=20)
 
+    def example(self):
+        self.item.carbon_footprint
+
     def __str__(self) -> str:
         return str(self.id)
-    

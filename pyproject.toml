@@ -13,6 +13,7 @@ ruff = "^0.4.3"
 django = "^5.0.6"
 django-enumfields = "^2.1.1"
 pandas = "^2.2.2"
+pydantic = "^2.7.3"
 
 
 [build-system]
@@ -45,4 +46,4 @@ exclude = [
 select = ["E4", "E7", "E9", "F", "B"]
 
 # 2. Avoid enforcing line-length violations (`E501`)
-ignore = ["E501","B007"]
+ignore = ["E501","B007","B018"]
