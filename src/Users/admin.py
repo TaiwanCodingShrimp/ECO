@@ -3,9 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 
 from .forms import UserChangeForm, UserCreationForm
-
-from .models import FoodTable, Leftover, User, Waste
-
+from .models import FoodTable, FootPrint, Leftover, User, Waste
 
 
 class UserAdmin(BaseUserAdmin):
@@ -40,7 +38,6 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
-
 class FootPrintAdmin(admin.ModelAdmin):
     readonly_fields = ("carbon_footprint",)
     list_display = ("users_id", "distance", "method", "carbon_footprint", "date")
@@ -51,8 +48,6 @@ class FootPrintAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.update_carbon_footprint()
         super().save_model(request, obj, form, change)
-
-
 
 
 class WasteAdmin(admin.ModelAdmin):
@@ -91,6 +86,7 @@ class FoodTableAdmin(admin.ModelAdmin):
     )
     list_filter = ("item", "carbon_factor")
     search_fields = ("item", "carbon_factor")
+
 
 admin.site.register(FootPrint, FootPrintAdmin)
 admin.site.register(FoodTable, FoodTableAdmin)
