@@ -50,7 +50,6 @@ class Waste(models.Model):
     item = models.CharField(max_length=20, null=False)
     provider = models.CharField(max_length=10, null=False)
     date_put_in = models.DateTimeField(auto_now_add=True)
-    label = models.CharField(max_length=20, null=False)
     sent_to = models.ForeignKey(
         WelfareOrganization, on_delete=models.CASCADE, null=True
     )
@@ -78,7 +77,6 @@ class Leftover(models.Model):
     # item = models.CharField(max_length=20, null=False)
     provider = models.CharField(max_length=10, null=False)
     date_put_in = models.DateTimeField(auto_now_add=True)
-    label = models.CharField(max_length=20, null=False)
     portion = models.FloatField(
         default=0.0,
         help_text="食物重量",

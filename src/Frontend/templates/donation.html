@@ -31,10 +31,6 @@
                     {{ waste_form.item }}
                 </div>
                 <div class="form-group">
-                    <label for="id_label">Label: </label>
-                    {{ waste_form.label }}
-                </div>
-                <div class="form-group">
                     <label for="id_sent_to">Sent To: </label>
                     {{ waste_form.sent_to }}
                 </div>
@@ -53,10 +49,6 @@
                 <div class="form-group">
                     <label for="id_item">Item: </label>
                     {{ leftover_form.item }}
-                </div>
-                <div class="form-group">
-                    <label for="id_label">Label: </label>
-                    {{ leftover_form.label }}
                 </div>
                 <div class="form-group">
                     <label for="id_portion">Portion: </label>
@@ -80,7 +72,7 @@
                     <li class="list-group-item">Waste: {{ waste.item }} to {{ waste.sent_to }} - {{ waste.status }}</li>
                 {% endfor %}
                 {% for leftover in leftovers %}
-                    <li class="list-group-item">Leftover: {{ leftover.item }} to {{ leftover.sent_to }} - {{ leftover.status }}</li>
+                    <li class="list-group-item">Leftover: {{ leftover.item }} to {{ leftover.sent_to }} - {{ leftover.status }} - Carbon Footprint: {{leftover.food_carbon_footprint}}</li>
                 {% endfor %}
                 {% if not wastes and not leftovers %}
                     <li class="list-group-item">You have no Donations recorded.</li>

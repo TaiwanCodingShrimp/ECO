@@ -56,7 +56,6 @@ class WasteAdmin(admin.ModelAdmin):
         "item",
         "provider",
         "date_put_in",
-        "label",
         "sent_to",
         "status",
     )
@@ -70,10 +69,10 @@ class LeftoverAdmin(admin.ModelAdmin):
         "item",
         "provider",
         "date_put_in",
-        "label",
         "portion",
         "sent_to",
         "status",
+        "food_carbon_footprint",
     )
     list_filter = ("status", "sent_to")
     search_fields = ("item", "provider", "status")
