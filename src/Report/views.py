@@ -8,10 +8,18 @@ import pandas as pd
 from django.utils import timezone
 from django.views.generic import TemplateView
 
-from Users.models import FootPrint
+from Users.models import FootPrint, Leftover
 from Users.schema import CommuteMethod
 
-from .schema import AllCommuteChart, Commutechart, CommuteCharts, CommuteData, DailyData
+from .schema import (
+    AllCommuteChart,
+    Commutechart,
+    CommuteCharts,
+    CommuteData,
+    DailyData,
+    LeftoverAllCommuteChart,
+    LeftoverDailyData,
+)
 
 
 class ReportView(TemplateView):
@@ -39,10 +47,7 @@ class ReportView(TemplateView):
         )
         return footprint_data_pd
 
-    def get_commute_method_charts(
-        self,
-        report_data: pd.DataFrame,
-    ) -> CommuteCharts:
+    def get_commute_method_charts(self, report_data: pd.DataFrame) -> CommuteCharts:
         charts = []
         if report_data.empty:
             return CommuteCharts(charts=charts)
@@ -65,9 +70,7 @@ class ReportView(TemplateView):
         return CommuteCharts(charts=charts)
 
     def _get_commute_method_chart(
-        self,
-        method: str,
-        method_data: pd.DataFrame,
+        self, method: str, method_data: pd.DataFrame
     ) -> Commutechart:
         datas = []
         for index, row in method_data.iterrows():
@@ -79,10 +82,7 @@ class ReportView(TemplateView):
         chart = Commutechart(method=method, commute_datasets=datas)
         return chart
 
-    def _get_all_method_chart(
-        self,
-        report_data: pd.DataFrame,
-    ) -> AllCommuteChart:
+    def _get_all_method_chart(self, report_data: pd.DataFrame) -> AllCommuteChart:
         grouped_by_date_data = (
             report_data.groupby([self.DataFrameColumns.DATE])[
                 self.DataFrameColumns.CARBON_FOOTPRINT
@@ -98,7 +98,47 @@ class ReportView(TemplateView):
             )
             datas.append(data)
         chart = AllCommuteChart(
-            title="Daily Total Footprint",
+            title="Daily Total Commute Footprint",
+            dataset=datas,
+        )
+        return chart
+
+    def get_leftover_pd(self, end_date: date, start_date: date) -> pd.DataFrame:
+        leftover_pd = pd.DataFrame(
+            Leftover.objects.filter(
+                date_put_in__gte=start_date,
+                date_put_in__lte=end_date,  # Ensure this filter includes the end date
+            ).values("date_put_in", "food_carbon_footprint")
+        )
+        if not leftover_pd.empty:
+            leftover_pd.rename(
+                columns={
+                    "date_put_in": self.DataFrameColumns.DATE,
+                    "food_carbon_footprint": self.DataFrameColumns.CARBON_FOOTPRINT,
+                },
+                inplace=True,
+            )
+            leftover_pd = (
+                leftover_pd.groupby([self.DataFrameColumns.DATE])[
+                    self.DataFrameColumns.CARBON_FOOTPRINT
+                ]
+                .sum()
+                .reset_index()
+            )
+        return leftover_pd
+
+    def get_leftover_daily_chart(
+        self, report_data: pd.DataFrame
+    ) -> LeftoverAllCommuteChart:
+        datas = []
+        for index, row in report_data.iterrows():
+            data = LeftoverDailyData(
+                date=row[self.DataFrameColumns.DATE],
+                carbon_footprint=row[self.DataFrameColumns.CARBON_FOOTPRINT],
+            )
+            datas.append(data)
+        chart = LeftoverAllCommuteChart(
+            title="Daily Total Leftover Donate Saving Carbon Footprint",
             dataset=datas,
         )
         return chart
@@ -121,26 +161,38 @@ class ReportView(TemplateView):
         commute_data = self.get_footprint_origin_pd(
             end_date=end_date, start_date=start_date
         )
+        leftover_data = self.get_leftover_pd(end_date=end_date, start_date=start_date)
         context["start_date"] = start_date.strftime("%Y-%m-%d")
         context["end_date"] = end_date.strftime("%Y-%m-%d")
 
         if commute_data.empty:
             context["commute_metrics"] = json.dumps({"charts": []})
+            context["daily_commute_matrics"] = json.dumps({"dataset": []})
         else:
             commute_time_charts = self.get_commute_method_charts(
                 report_data=commute_data
             )
             daily_total_chart = self._get_all_method_chart(report_data=commute_data)
             commute_time_charts_dict = commute_time_charts.dict()
-            daily_total_chart = daily_total_chart.dict()
-            for dataset in daily_total_chart["dataset"]:
+            daily_total_chart_dict = daily_total_chart.dict()
+            for dataset in daily_total_chart_dict["dataset"]:
                 dataset["date"] = dataset["date"].isoformat()
 
-            # Convert date objects to strings
             for chart in commute_time_charts_dict["charts"]:
                 for dataset in chart["commute_datasets"]:
                     dataset["date"] = dataset["date"].isoformat()
 
             context["commute_metrics"] = json.dumps(commute_time_charts_dict)
-            context["daily_commute_matrics"] = json.dumps(daily_total_chart)
+            context["daily_commute_matrics"] = json.dumps(daily_total_chart_dict)
+
+        if leftover_data.empty:
+            context["leftover_matrics"] = json.dumps({"dataset": []})
+        else:
+            daily_leftover_chart = self.get_leftover_daily_chart(
+                report_data=leftover_data
+            )
+            daily_leftover_chart_dict = daily_leftover_chart.dict()
+            for dataset in daily_leftover_chart_dict["dataset"]:
+                dataset["date"] = dataset["date"].isoformat()
+            context["leftover_matrics"] = json.dumps(daily_leftover_chart_dict)
         return context
