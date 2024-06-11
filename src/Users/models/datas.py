@@ -77,7 +77,7 @@ class Leftover(models.Model):
     item: FoodTable = models.ForeignKey(FoodTable, on_delete=models.CASCADE, null=True)
     # item = models.CharField(max_length=20, null=False)
     provider = models.CharField(max_length=10, null=False)
-    date_put_in = models.DateTimeField()
+    date_put_in = models.DateTimeField(auto_now_add=True)
     label = models.CharField(max_length=20, null=False)
     portion = models.FloatField(
         default=0.0,
@@ -109,4 +109,4 @@ class Leftover(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self) -> str:
-        return str(self.id)
+        return str(self.item)

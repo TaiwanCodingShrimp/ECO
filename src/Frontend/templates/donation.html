@@ -31,10 +31,6 @@
                     {{ waste_form.item }}
                 </div>
                 <div class="form-group">
-                    <label for="id_provider">Provider</label>
-                    {{ waste_form.provider }}
-                </div>
-                <div class="form-group">
                     <label for="id_label">Label</label>
                     {{ waste_form.label }}
                 </div>
@@ -57,10 +53,6 @@
                 <div class="form-group">
                     <label for="id_item">Item</label>
                     {{ leftover_form.item }}
-                </div>
-                <div class="form-group">
-                    <label for="id_provider">Provider</label>
-                    {{ leftover_form.provider }}
                 </div>
                 <div class="form-group">
                     <label for="id_label">Label</label>
@@ -90,6 +82,9 @@
                 {% for leftover in leftovers %}
                     <li class="list-group-item">Leftover: {{ leftover.item }} to {{ leftover.sent_to }} - {{ leftover.status }}</li>
                 {% endfor %}
+                {% if not waste and not leftover %}
+                <li class="list-group-item">You have no footprints recorded.</li>
+                {% endif %}
             </ul>
         </div>
     </div>
