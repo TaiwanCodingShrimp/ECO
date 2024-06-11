@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 
+{% block title %}Board{% endblock %}
+
 {% block content %}
 <div class="container mt-5">
-    <h1>留言板</h1>
-    <a href="{% url 'createboard' %}" class="bg-dark-green btn btn-primary mb-3">新增留言</a>
+    <h1>Board</h1>
+    <a href="{% url 'createboard' %}" class="bg-dark-green btn btn-primary mb-3">Add Message</a>
     <div class="list-group">
         {% for board in boards %}
             <a href="{% url 'board_detail' board_id=board.board_id %}" class="list-group-item list-group-item-action">
                 <h5 class="mb-1">{{ board.topic }}</h5>
-                <small class="text-muted">由 {{ board.user }} 在 {{ board.date|date:"Y-m-d" }} 發表</small>
+                <small class="text-muted"> by {{ board.user }} at {{ board.date|date:"Y-m-d" }} publish </small>
             </a>
         {% endfor %}
     </div>

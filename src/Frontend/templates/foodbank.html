@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %}篩選食物銀行{% endblock %}
+{% block title %}FoodBank{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1 class="mt-4">選擇附近的食物銀行</h1>
+    <h1 class="mt-4">Nearyby FoodBank</h1>
 
     <form id="food-bank-form" method="GET" class="form-inline my-4">
         <input type="hidden" name="type" value="food_bank">
         <div class="form-group mr-2">
-            <label for="county-food-bank" class="mr-2">選擇縣市:</label>
+            <label for="county-food-bank" class="mr-2">County:</label>
             <select id="county-food-bank" name="county" class="form-control">
                 <option value="">所有縣市</option>
                 {% for c in counties %}
@@ -18,7 +18,7 @@
             </select>
         </div>
         <div class="form-group mr-2">
-            <label for="district-food-bank" class="mr-2">選擇地區:</label>
+            <label for="district-food-bank" class="mr-2">District:</label>
             <select id="district-food-bank" name="district" class="form-control">
                 <option value="">所有地區</option>
                 {% for d in districts %}
@@ -29,7 +29,7 @@
         <button type="submit" class="btn btn-primary">篩選</button>
     </form>
 
-    <h2>食物銀行</h2>
+    <h2>FoodBank</h2>
     <ul class="list-group">
         {% for org in organizations %}
             <li class="list-group-item">
