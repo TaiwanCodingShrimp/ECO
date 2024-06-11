@@ -6,7 +6,7 @@ from Board.forms import BoardForm
 from Board.models import Board
 from Organization.models import Food_Bank, WelfareOrganization
 from Users.forms import FootPrintForm, LeftoverForm, LoginForm, SignUpForm, WasteForm
-from Users.models import FootPrint, Leftover, Waste,User
+from Users.models import FootPrint, Leftover, Waste
 
 
 def index_view(request):
@@ -71,13 +71,13 @@ def report_view(request):
 def users_view(request):
     user = request.user
     # user = User.objects.get(pk=request.user.pk)
-    if request.method == 'POST':
-        user.title = request.POST.get('title')
-        user.location = request.POST.get('location')
-        user.phone = request.POST.get('phone')
+    if request.method == "POST":
+        user.title = request.POST.get("title")
+        user.location = request.POST.get("location")
+        user.phone = request.POST.get("phone")
         user.save()
-        return redirect('users')
-    return render(request, 'users.html', {'user': user})
+        return redirect("users")
+    return render(request, "users.html", {"user": user})
 
 
 @login_required
