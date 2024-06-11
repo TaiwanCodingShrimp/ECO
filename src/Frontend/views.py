@@ -69,7 +69,8 @@ def report_view(request):
 
 @login_required
 def users_view(request):
-    user = User.objects.get(pk=request.user.pk)
+    user = request.user
+    # user = User.objects.get(pk=request.user.pk)
     if request.method == 'POST':
         user.title = request.POST.get('title')
         user.location = request.POST.get('location')
