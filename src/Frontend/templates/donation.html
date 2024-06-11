@@ -27,19 +27,19 @@
                 {% csrf_token %}
                 {{ waste_form.management_form }}
                 <div class="form-group">
-                    <label for="id_item">Item</label>
+                    <label for="id_item">Item: </label>
                     {{ waste_form.item }}
                 </div>
                 <div class="form-group">
-                    <label for="id_label">Label</label>
+                    <label for="id_label">Label: </label>
                     {{ waste_form.label }}
                 </div>
                 <div class="form-group">
-                    <label for="id_sent_to">Sent To</label>
+                    <label for="id_sent_to">Sent To: </label>
                     {{ waste_form.sent_to }}
                 </div>
                 <div class="form-group">
-                    <label for="id_status">Status</label>
+                    <label for="id_status">Status: </label>
                     {{ waste_form.status }}
                 </div>
                 <button type="submit" name="waste_form" class="btn btn-primary">Submit Waste</button>
@@ -51,23 +51,23 @@
                 {% csrf_token %}
                 {{ leftover_form.management_form }}
                 <div class="form-group">
-                    <label for="id_item">Item</label>
+                    <label for="id_item">Item: </label>
                     {{ leftover_form.item }}
                 </div>
                 <div class="form-group">
-                    <label for="id_label">Label</label>
+                    <label for="id_label">Label: </label>
                     {{ leftover_form.label }}
                 </div>
                 <div class="form-group">
-                    <label for="id_portion">Portion</label>
+                    <label for="id_portion">Portion: </label>
                     {{ leftover_form.portion }}
                 </div>
                 <div class="form-group">
-                    <label for="id_sent_to">Sent To</label>
+                    <label for="id_sent_to">Sent To: </label>
                     {{ leftover_form.sent_to }}
                 </div>
                 <div class="form-group">
-                    <label for="id_status">Status</label>
+                    <label for="id_status">Status: </label>
                     {{ leftover_form.status }}
                 </div>
                 <button type="submit" name="leftover_form" class="btn btn-primary">Submit Leftover</button>

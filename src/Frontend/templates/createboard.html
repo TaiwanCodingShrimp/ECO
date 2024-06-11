@@ -6,31 +6,31 @@
     <form method="post">
         {% csrf_token %}
         <div class="form-group">
-            <label for="id_title">Title</label>
+            <label for="id_title">Title: </label>
             {{ form.topic }}
         </div>
         <div class="form-group">
-            <label for="id_content">Content</label>
+            <label for="id_content">Content: </label>
             {{ form.content }}
         </div>
         <div class="form-group">
-            <label for="id_type">Tag</label>
+            <label for="id_type">Tag: </label>
             {{ form.type }}
         </div>
         <div class="form-group">
-            <label for="id_leftover_item">Leftover</label>
+            <label for="id_leftover_item">Leftover: </label>
             {{ form.leftover_item }}
         </div>
         <div class="form-group">
-            <label for="id_waste_item">Waste</label>
+            <label for="id_waste_item">Waste: </label>
             {{ form.waste_item }}
         </div>
         <div class="form-group">
-            <label for="id_fb_id">FoodBank</label>
+            <label for="id_fb_id">FoodBank: </label>
             {{ form.fb_id }}
         </div>
         <div class="form-group">
-            <label for="id_wo_id">WelfareOrganization</label>
+            <label for="id_wo_id">WelfareOrganization: </label>
             {{ form.wo_id }}
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>

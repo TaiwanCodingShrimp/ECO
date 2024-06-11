@@ -22,15 +22,15 @@
             <form method="post">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="id_distance">Distance</label>
+                    <label for="id_distance">Distance: </label>
                     {{ form.distance }}
                 </div>
                 <div class="form-group">
-                    <label for="id_method">Method:</label>
+                    <label for="id_method">Method: </label>
                     {{ form.method }}
                 </div>
                 <div class="form-group">
-                    <label for="id_date">Time:</label>
+                    <label for="id_date">Time: </label>
                     <div class="input-group">
                         {{ form.date }}
                         <div class="input-group-append">
