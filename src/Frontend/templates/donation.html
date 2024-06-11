@@ -82,8 +82,8 @@
                 {% for leftover in leftovers %}
                     <li class="list-group-item">Leftover: {{ leftover.item }} to {{ leftover.sent_to }} - {{ leftover.status }}</li>
                 {% endfor %}
-                {% if not waste and not leftover %}
-                <li class="list-group-item">You have no footprints recorded.</li>
+                {% if not wastes and not leftovers %}
+                    <li class="list-group-item">You have no Donations recorded.</li>
                 {% endif %}
             </ul>
         </div>

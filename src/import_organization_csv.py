@@ -5,7 +5,7 @@ import pandas as pd
 from Organization.models import WelfareOrganization
 
 
-class create_organiztion:
+class create_organization:
     def random_with_N_digits(self, n):
         range_start = 10 ** (n - 1)
         range_end = (10**n) - 1
