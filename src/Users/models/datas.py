@@ -77,17 +77,36 @@ class Leftover(models.Model):
     item: FoodTable = models.ForeignKey(FoodTable, on_delete=models.CASCADE, null=True)
     # item = models.CharField(max_length=20, null=False)
     provider = models.CharField(max_length=10, null=False)
-    date_put_in = models.DateTimeField(auto_now_add=True)
+    date_put_in = models.DateTimeField()
     label = models.CharField(max_length=20, null=False)
-    portion = models.CharField(
-        max_length=20,
-        null=False,
+    portion = models.FloatField(
+        default=0.0,
+        help_text="食物重量",
+        validators=[MinValueValidator(0.0), MaxValueValidator(10000.0)],
     )
     sent_to = models.ForeignKey(Food_Bank, on_delete=models.CASCADE, null=True)
     status = models.CharField(max_length=20)
 
-    def example(self):
-        self.item.carbon_footprint
+    food_carbon_footprint = models.FloatField(
+        default=0.0,
+        verbose_name="食物累計碳足跡",
+        validators=[MinValueValidator(0), MaxValueValidator(10000)],
+    )
+
+    def update_food_footprint(self):
+        self.food_carbon_footprint = self.get_foodtable_footprint()
+
+    def get_foodtable_footprint(self):
+        return self._get_foodtable_footprint() or 0
+
+    def _get_foodtable_footprint(self):
+        if self.item and self.portion:
+            return self.item.carbon_factor * self.portion
+        return 0
+
+    def save(self, *args, **kwargs):
+        self.update_food_footprint()
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return str(self.id)

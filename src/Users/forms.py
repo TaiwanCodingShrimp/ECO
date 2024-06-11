@@ -81,10 +81,13 @@ class LeftoverForm(forms.ModelForm):
     class Meta:
         model = Leftover
         fields = ["item", "provider", "label", "portion", "sent_to", "status"]
+        exclude = ["id", "food_carbon_footprint"]
 
 
 class FootPrintForm(forms.ModelForm):
     class Meta:
         model = FootPrint
         fields = ["distance", "method", "date"]
-        exclude = ["user", "carbon_footprint"]
+        exclude = ["users_id", "carbon_footprint"]
+
+
