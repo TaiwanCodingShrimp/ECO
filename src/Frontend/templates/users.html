@@ -1,9 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %}Users - 我的網站{% endblock %}
+{% block title %}使用者資訊{% endblock %}
 
 {% block content %}
-<h1>Users 功能頁面</h1>
-<p>這是 Users 功能的內容。</p>
-
+<div class="container">
+    <h1 class="mt-4">使用者資訊</h1>
+    <ul class="list-group">
+            <li class="list-group-item">
+                <strong>稱謂:</strong> {{ user.title }}<br>
+                <strong>Email:</strong> {{ user.email }}<br>
+                <strong>電話:</strong> {{ user.phone }}
+            </li>
+    </ul>
+    <a href="{% url 'report' %}" class="bg-dark-green btn btn-primary mt-4">產生報告</a>
+</div>
 {% endblock %}

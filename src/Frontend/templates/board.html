@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container mt-5">
     <h1>留言板</h1>
-    <a href="{% url 'createboard' %}" class="btn btn-primary mb-3">新增留言</a>
+    <a href="{% url 'createboard' %}" class="bg-dark-green btn btn-primary mb-3">新增留言</a>
     <div class="list-group">
         {% for board in boards %}
             <a href="{% url 'board_detail' board_id=board.board_id %}" class="list-group-item list-group-item-action">
