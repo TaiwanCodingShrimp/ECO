@@ -24,7 +24,7 @@ class ReportView(TemplateView):
 
     @cached_property
     def end_date(self) -> date:
-        return timezone.now() - timedelta(days=1)
+        return timezone.now().date()
 
     @cached_property
     def start_date(self) -> date:
@@ -34,14 +34,9 @@ class ReportView(TemplateView):
         footprint_data_pd = pd.DataFrame(
             FootPrint.objects.filter(
                 date__gte=start_date,
-                date__lte=end_date,
+                date__lte=end_date,  # Ensure this filter includes the end date
             ).values("date", "method", "distance", "carbon_footprint")
         )
-        if not footprint_data_pd.empty:
-            # Convert time format
-            footprint_data_pd[self.DataFrameColumns.DATE] = pd.to_datetime(
-                footprint_data_pd[self.DataFrameColumns.DATE].dt.date
-            )
         return footprint_data_pd
 
     def get_commute_method_charts(

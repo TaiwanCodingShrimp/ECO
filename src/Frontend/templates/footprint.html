@@ -34,7 +34,7 @@
                     <div class="input-group">
                         {{ form.date }}
                         <div class="input-group-append">
-                            <span class="input-group-text" id="dateHelp">YYYY-MM-DD HH:MM</span>
+                            <span class="input-group-text" id="dateHelp">YYYY-MM-DD </span>
                             <button type="button" class="btn btn-outline-secondary" id="set-today">Today</button>
                         </div>
                     </div>
@@ -73,9 +73,7 @@
                 const year = now.getFullYear();
                 const month = String(now.getMonth() + 1).padStart(2, '0');
                 const day = String(now.getDate()).padStart(2, '0');
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                dateInput.value = `${year}-${month}-${day} ${hours}:${minutes}`;
+                dateInput.value = `${year}-${month}-${day} `;
             });
         }
     });

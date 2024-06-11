@@ -20,7 +20,7 @@ class FootPrint(models.Model):
         max_length=20,
         help_text="通勤交通方式",
     )
-    date = models.DateTimeField("活動時間")
+    date = models.DateField("活動時間")
     carbon_footprint = models.FloatField(
         default=0.0,
         verbose_name="累計碳足跡",
@@ -76,7 +76,7 @@ class Leftover(models.Model):
     item: FoodTable = models.ForeignKey(FoodTable, on_delete=models.CASCADE, null=True)
     # item = models.CharField(max_length=20, null=False)
     provider = models.CharField(max_length=10, null=False)
-    date_put_in = models.DateTimeField(auto_now_add=True)
+    date_put_in = models.DateField(auto_now_add=True)
     portion = models.FloatField(
         default=0.0,
         help_text="食物重量",

@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Commute Carbon Footprint Report</title>
-    <!-- <link rel="stylesheet" href="{% static 'css/styles.css' %}"> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
     <style>
         body {
@@ -27,12 +26,12 @@
             font-weight: bold;
         }
         .top-container input[type="date"] {
-            width: 200px;  /* Increase width */
-            height: 40px;  /* Increase height */
-            font-size: 18px;  /* Increase font size */
-            padding: 8px;  /* Increase padding */
+            width: 200px;
+            height: 40px;
+            font-size: 18px;
+            padding: 8px;
             margin-right: 10px;
-            box-sizing: border-box;  /* Ensure padding and border are included in the width and height */
+            box-sizing: border-box;
         }
         .main-container {
             display: flex;
@@ -48,17 +47,6 @@
             margin-bottom: 10px;
             border-radius: 5px;
             background-color: #f9f9f9;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
         }
     </style>
 </head>
@@ -97,7 +85,6 @@
 
             try {
                 const commuteMetricsScript = document.getElementById('commuteMetrics').textContent;
-                console.log("Commute Metrics JSON:", commuteMetricsScript);
                 window.COMMUTE_METRICS = JSON.parse(commuteMetricsScript);
                 const charts = window.COMMUTE_METRICS.charts;
 
@@ -126,28 +113,29 @@
                 }
 
                 function createChart(canvas, datasets) {
-                    console.log("Creating chart with datasets:", datasets); // Debugging log
+                    const chartData = {
+                        labels: datasets.map(dataset => dataset.date),
+                        datasets: [{
+                            label: datasets[0].method,
+                            data: datasets.map(dataset => dataset.carbon_footprint),
+                            borderColor: '#FF6384',
+                            backgroundColor: 'rgba(255,99,132,0.2)',
+                            fill: false,
+                            tension: 0.1,
+                            borderWidth: 2,
+                            pointRadius: 4,
+                            pointBorderWidth: 2,
+                            pointHoverRadius: 4,
+                            pointHoverBorderWidth: 1,
+                        }]
+                    };
+
                     new Chart(canvas, {
                         type: 'line',
-                        data: {
-                            datasets
-                        },
+                        data: chartData,
                         options: {
                             responsive: false,
                             maintainAspectRatio: false,
-                            datasets: {
-                                line: {
-                                    tension: 0.1,
-                                    borderWidth: 2,
-                                    pointRadius: 4,
-                                    pointBorderWidth: 2,
-                                    pointHoverRadius: 4,
-                                    pointHoverBorderWidth: 1,
-                                    fill: false,
-                                    pointBorderColor: "#F5F5F4",
-                                    backgroundColor: 'transparent',
-                                }
-                            },
                             plugins: {
                                 legend: {
                                     position: 'bottom',
@@ -169,10 +157,7 @@
                                     xPadding: 10,
                                     yPadding: 10,
                                     caretPadding: 10,
-                                },
-                                colors: {
-                                    forceOverride: true
-                                },
+                                }
                             },
                             layout: {
                                 padding: { left: 10, right: 10, top: 20, bottom: 30 }
@@ -184,12 +169,10 @@
                 for (let chart of charts) {
                     const canvas = createCanvas(chart.method);
                     const datasets = chart.commute_datasets.map(dataset => ({
-                        label: chart.method,
-                        data: [{ x: dataset.date, y: dataset.carbon_footprint }],
-                        borderColor: '#FF6384', // Add some colors for differentiation
-                        backgroundColor: 'rgba(255,99,132,0.2)',
+                        method: chart.method,
+                        date: dataset.date,
+                        carbon_footprint: dataset.carbon_footprint
                     }));
-                    console.log("Datasets for chart:", datasets); // Debugging log
                     createChart(canvas, datasets);
                 }
 
