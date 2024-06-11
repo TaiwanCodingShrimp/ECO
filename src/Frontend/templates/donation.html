@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}Objects{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Donation</h1>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="waste-tab" data-toggle="tab" href="#waste" role="tab" aria-controls="waste" aria-selected="true">Waste</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="leftover-tab" data-toggle="tab" href="#leftover" role="tab" aria-controls="leftover" aria-selected="false">Leftover</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="donations-tab" data-toggle="tab" href="#donations" role="tab" aria-controls="donations" aria-selected="false">My Donations</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="waste" role="tabpanel" aria-labelledby="waste-tab">
+            <h2>Waste Form</h2>
+            <form method="post" class="mb-4" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ waste_form.management_form }}
+                <div class="form-group">
+                    <label for="id_item">Item</label>
+                    {{ waste_form.item }}
+                </div>
+                <div class="form-group">
+                    <label for="id_provider">Provider</label>
+                    {{ waste_form.provider }}
+                </div>
+                <div class="form-group">
+                    <label for="id_label">Label</label>
+                    {{ waste_form.label }}
+                </div>
+                <div class="form-group">
+                    <label for="id_sent_to">Sent To</label>
+                    {{ waste_form.sent_to }}
+                </div>
+                <div class="form-group">
+                    <label for="id_status">Status</label>
+                    {{ waste_form.status }}
+                </div>
+                <button type="submit" name="waste_form" class="btn btn-primary">Submit Waste</button>
+            </form>
+        </div>
+        <div class="tab-pane fade" id="leftover" role="tabpanel" aria-labelledby="leftover-tab">
+            <h2>Leftover Form</h2>
+            <form method="post" class="mb-4" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ leftover_form.management_form }}
+                <div class="form-group">
+                    <label for="id_item">Item</label>
+                    {{ leftover_form.item }}
+                </div>
+                <div class="form-group">
+                    <label for="id_provider">Provider</label>
+                    {{ leftover_form.provider }}
+                </div>
+                <div class="form-group">
+                    <label for="id_label">Label</label>
+                    {{ leftover_form.label }}
+                </div>
+                <div class="form-group">
+                    <label for="id_portion">Portion</label>
+                    {{ leftover_form.portion }}
+                </div>
+                <div class="form-group">
+                    <label for="id_sent_to">Sent To</label>
+                    {{ leftover_form.sent_to }}
+                </div>
+                <div class="form-group">
+                    <label for="id_status">Status</label>
+                    {{ leftover_form.status }}
+                </div>
+                <button type="submit" name="leftover_form" class="btn btn-primary">Submit Leftover</button>
+            </form>
+        </div>
+        <div class="tab-pane fade" id="donations" role="tabpanel" aria-labelledby="donations-tab">
+            <h2>Your Donations</h2>
+            <ul class="list-group">
+                {% for waste in wastes %}
+                    <li class="list-group-item">Waste: {{ waste.item }} to {{ waste.sent_to }} - {{ waste.status }}</li>
+                {% endfor %}
+                {% for leftover in leftovers %}
+                    <li class="list-group-item">Leftover: {{ leftover.item }} to {{ leftover.sent_to }} - {{ leftover.status }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('#myTab a').on('click', function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
+    });
+</script>
+{% endblock %}

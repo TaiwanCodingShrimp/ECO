@@ -1,8 +1,8 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from enumfields import EnumField
-
 from ..schema import CarbonFootprintReportData, CommuteMethod
+from Organization.models import Food_Bank, WelfareOrganization
 from .user_info import User
 
 
@@ -48,41 +48,39 @@ class Waste(models.Model):
     item = models.CharField(max_length=20, null=False)
     provider = models.CharField(max_length=10, null=False)
     date_put_in = models.DateTimeField(auto_now_add=True)
-    label = models.DateTimeField(max_length=20, null=False)
-    sent_to = models.CharField(max_length=20)
+    label = models.CharField(max_length=20, null=False)
+    sent_to = models.ForeignKey(
+        WelfareOrganization, on_delete=models.CASCADE, null=True
+    )
     status = models.CharField(max_length=20)
 
     def __str__(self) -> str:
         return str(self.id)
 
-
-class Food_Table(models.Model):
+class FoodTable(models.Model):
     item = models.CharField(max_length=20, primary_key=True)
-    carbon_footprint = models.FloatField(
+    carbon_factor = models.FloatField(
         default=0.0,
         help_text="對應碳足跡",
         validators=[MinValueValidator(0), MaxValueValidator(10000)],
     )
 
     def __str__(self) -> str:
-        return str(self.carbon_footprint)
+        return str(self.item)
 
 
 class Leftover(models.Model):
     id = models.AutoField(primary_key=True)
-    item: Food_Table = models.ForeignKey(
-        Food_Table, on_delete=models.CASCADE, null=True
-    )
+    item: FoodTable = models.ForeignKey(FoodTable, on_delete=models.CASCADE, null=True)
     # item = models.CharField(max_length=20, null=False)
     provider = models.CharField(max_length=10, null=False)
     date_put_in = models.DateTimeField(auto_now_add=True)
-    label = models.DateTimeField(max_length=20, null=False)
+    label = models.CharField(max_length=20, null=False)
     portion = models.CharField(
         max_length=20,
         null=False,
-        validators=(MinValueValidator(0), MaxValueValidator(1000)),
     )
-    sent_to = models.CharField(max_length=20)
+    sent_to = models.ForeignKey(Food_Bank, on_delete=models.CASCADE, null=True)
     status = models.CharField(max_length=20)
 
     def example(self):

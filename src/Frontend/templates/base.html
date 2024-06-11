@@ -5,9 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{% block title %}ECO LIFE{% endblock %}</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .bg-dark-green {
+            background-color: #004d00 !important; /* 深綠色 */
+        }
+    </style>
 </head>
 <body>
-    <header class="bg-primary text-white text-center py-3">
+    <header class="bg-dark-green text-white text-center py-3">
         <h1>ECO LIFE</h1>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             {% if user.is_authenticated %}
@@ -30,10 +35,12 @@
                                 <a class="nav-link" href="{% url 'board' %}">Board</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'organizations' %}">Organizations</a>
+                                <a class="nav-link" href="{% url 'welfare' %}">WelfareOrganization</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'report' %}">Report</a>
+                                <a class="nav-link" href="{% url 'foodbank' %}">FoodBank</a>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'donation' %}">donation</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'users' %}">Users</a>

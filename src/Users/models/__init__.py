@@ -1,4 +1,4 @@
-from .datas import FootPrint, Leftover, Waste
+from .datas import FoodTable, FootPrint, Leftover, Waste
 from .user_info import User
 
 __all__ = [
@@ -6,4 +6,5 @@ __all__ = [
     Waste,
     Leftover,
     User,
+    FoodTable,
 ]

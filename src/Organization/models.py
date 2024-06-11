@@ -20,15 +20,16 @@ class WelfareOrganization(models.Model):
     address: str = models.CharField(max_length=60, null=True)
 
     def __str__(self) -> str:
-        return str(self.id)
+        return str(self.name)
 
 
 class Food_Bank(models.Model):
     id: int = models.AutoField(primary_key=True)
     name: str = models.CharField(max_length=20)
     county: str = models.CharField(max_length=20)
+    district: str = models.CharField(max_length=20, default=" ")
     address: str = models.CharField(max_length=20)
     contact: str = models.CharField(max_length=20)
 
     def __str__(self) -> str:
-        return str(self.id)
+        return str(self.name)

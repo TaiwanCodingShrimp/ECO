@@ -1,6 +1,7 @@
 import pandas as pd
 
-from Users.models.datas import Food_Table
+from Users.models.datas import FoodTable
+
 
 
 class create_food_Table:
@@ -12,12 +13,12 @@ class create_food_Table:
 
         for index, row in df.iterrows():
             food_agencies.append(
-                Food_Table(
+                FoodTable(
                     item=row["item"],
-                    carbon_footprint=row["carbon_footprint"],
+                    carbon_factor=row["carbon_footprint"],
                 )
             )
 
-        Food_Table.objects.bulk_create(food_agencies, batch_size=500)
+        FoodTable.objects.bulk_create(food_agencies, batch_size=500)
 
         print("Data imported successfully!")

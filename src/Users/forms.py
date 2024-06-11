@@ -5,7 +5,7 @@ from django.contrib.auth.forms import (
     UserCreationForm,
 )
 
-from .models import User
+from .models import Leftover, User, Waste
 
 
 class SignUpForm(UserCreationForm):
@@ -69,3 +69,15 @@ class UserChangeForm(forms.ModelForm):
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
         return self.initial["password"]
+
+
+class WasteForm(forms.ModelForm):
+    class Meta:
+        model = Waste
+        fields = ["item", "provider", "label", "sent_to", "status"]
+
+
+class LeftoverForm(forms.ModelForm):
+    class Meta:
+        model = Leftover
+        fields = ["item", "provider", "label", "portion", "sent_to", "status"]
