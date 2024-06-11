@@ -2,38 +2,38 @@
 
 {% block content %}
 <div class="container mt-5">
-    <h1>新增留言</h1>
+    <h1>Create message</h1>
     <form method="post">
         {% csrf_token %}
         <div class="form-group">
-            <label for="id_title">標題</label>
+            <label for="id_title">Title</label>
             {{ form.topic }}
         </div>
         <div class="form-group">
-            <label for="id_content">內容</label>
+            <label for="id_content">Content</label>
             {{ form.content }}
         </div>
         <div class="form-group">
-            <label for="id_type">標籤</label>
+            <label for="id_type">Tag</label>
             {{ form.type }}
         </div>
         <div class="form-group">
-            <label for="id_leftover_item">剩餘食物</label>
+            <label for="id_leftover_item">Leftover</label>
             {{ form.leftover_item }}
         </div>
         <div class="form-group">
-            <label for="id_waste_item">二手物品</label>
+            <label for="id_waste_item">Waste</label>
             {{ form.waste_item }}
         </div>
         <div class="form-group">
-            <label for="id_fb_id">食物銀行</label>
+            <label for="id_fb_id">FoodBank</label>
             {{ form.fb_id }}
         </div>
         <div class="form-group">
-            <label for="id_wo_id">社福機構</label>
+            <label for="id_wo_id">WelfareOrganization</label>
             {{ form.wo_id }}
         </div>
-        <button type="submit" class="btn btn-primary">提交</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 {% endblock %}

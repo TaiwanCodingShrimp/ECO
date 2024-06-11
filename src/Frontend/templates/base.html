@@ -39,8 +39,12 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'foodbank' %}">FoodBank</a>
+                            </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'donation' %}">donation</a>
+                                <a class="nav-link" href="{% url 'donation' %}">Donation</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'footprint' %}">Footprint</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'users' %}">Users</a>
@@ -48,15 +52,15 @@
                             <li class="nav-item">
                                 <form method="post" action="{% url 'logout' %}" style="display:inline;">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-link nav-link" style="cursor:pointer;">登出</button>
+                                    <button type="submit" class="btn btn-link nav-link" style="cursor:pointer;">Logout</button>
                                 </form>
                             </li>
                         {% else %}
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'login' %}">登入</a>
+                                <a class="nav-link" href="{% url 'login' %}">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{% url 'signup' %}">註冊</a>
+                                <a class="nav-link" href="{% url 'signup' %}">Register</a>
                             </li>
                         {% endif %}
                     </ul>
@@ -68,7 +72,7 @@
         {% block content %}{% endblock %}
     </main>
     <footer class="bg-light text-center py-3">
-        <p>版權所有 &copy; 2024</p>
+        <p>All Rights Reserved &copy; 2024</p>
     </footer>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

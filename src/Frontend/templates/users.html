@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
-{% block title %}使用者資訊{% endblock %}
+{% block title %}User info{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1 class="mt-4">使用者資訊</h1>
+    <h1 class="mt-4">User info</h1>
     <ul class="list-group">
             <li class="list-group-item">
-                <strong>稱謂:</strong> {{ user.title }}<br>
+                <strong>Title:</strong> {{ user.title }}<br>
                 <strong>Email:</strong> {{ user.email }}<br>
-                <strong>電話:</strong> {{ user.phone }}
+                <strong>Phone:</strong> {{ user.phone }}
             </li>
     </ul>
     <a href="{% url 'report' %}" class="bg-dark-green btn btn-primary mt-4">產生報告</a>

@@ -4,8 +4,8 @@
 <div class="container mt-5">
     <h1>{{ board.topic }}</h1>
     <p>{{ board.content }}</p>
-    <small class="text-muted">由 {{ board.user_id }} 在 {{ board.date|date:"Y-m-d" }} 發表</small>
+    <small class="text-muted"> by {{ board.user_id }} at {{ board.date|date:"Y-m-d" }} publish</small>
     <hr>
-    <a href="{% url 'board' %}" class="btn btn-secondary">返回留言板</a>
+    <a href="{% url 'board' %}" class="btn btn-secondary">Back to Board</a>
 </div>
 {% endblock %}
