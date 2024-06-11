@@ -3,6 +3,7 @@ import pandas as pd
 from Users.models.datas import FoodTable
 
 
+
 class create_food_Table:
     def run(self):
         csv_file_path = "src/res/food_carbon_data.csv"
