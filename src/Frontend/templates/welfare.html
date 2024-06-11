@@ -8,25 +8,29 @@
 
     <form id="organization-form" method="GET" class="form-inline my-4">
         <input type="hidden" name="type" value="organization">
-        <div class="form-group mr-2">
-            <label for="county-organization" class="mr-2">County:</label>
-            <select id="county-organization" name="county" class="form-control">
-                <option value="">所有縣市</option>
-                {% for c in counties %}
-                    <option value="{{ c }}" {% if c == selected_county %}selected{% endif %}>{{ c }}</option>
-                {% endfor %}
-            </select>
+        <div class="form-row align-items-end">
+            <div class="form-group mr-2">
+                <label for="county-organization" class="mr-2">County:</label>
+                <select id="county-organization" name="county" class="form-control">
+                    <option value="">所有縣市</option>
+                    {% for c in counties %}
+                        <option value="{{ c }}" {% if c == selected_county %}selected{% endif %}>{{ c }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group mr-2">
+                <label for="district-organization" class="mr-2">District:</label>
+                <select id="district-organization" name="district" class="form-control">
+                    <option value="">所有地區</option>
+                    {% for d in districts %}
+                        <option value="{{ d }}" {% if d == selected_district %}selected{% endif %}>{{ d }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="bg-dark-green btn btn-primary">篩選</button>
+            </div>
         </div>
-        <div class="form-group mr-2">
-            <label for="district-organization" class="mr-2">District:</label>
-            <select id="district-organization" name="district" class="form-control">
-                <option value="">所有地區</option>
-                {% for d in districts %}
-                    <option value="{{ d }}" {% if d == selected_district %}selected{% endif %}>{{ d }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <button type="submit" class="bg-dark-green btn btn-primary mt-4">篩選</button>
     </form>
 
     <h2>WelfareOrganization</h2>
