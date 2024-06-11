@@ -5,8 +5,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from Board.forms import BoardForm
 from Board.models import Board
 from Organization.models import Food_Bank, WelfareOrganization
-from Users.forms import LeftoverForm, LoginForm, SignUpForm, WasteForm
-from Users.models import Leftover, Waste
+from Users.forms import FootPrintForm, LeftoverForm, LoginForm, SignUpForm, WasteForm
+from Users.models import FootPrint, Leftover, Waste
 
 
 def index_view(request):
@@ -182,3 +182,23 @@ def food_bank_view(request):
         "organizations": organizations,
     }
     return render(request, "foodbank.html", context)
+
+
+@login_required
+def footprint_view(request):
+    form = FootPrintForm()
+    if request.method == "POST":
+        form = FootPrintForm(request.POST)
+        if form.is_valid():
+            footprint = form.save(commit=False)
+            footprint.users_id = request.user
+            footprint.save()
+            return redirect("footprint")  # Redirect to the same page after saving
+        else:
+            return redirect("footprint")
+    else:
+        form = FootPrintForm()
+
+    footprints = FootPrint.objects.filter(users_id=request.user)
+
+    return render(request, "footprint.html", {"form": form, "footprints": footprints})

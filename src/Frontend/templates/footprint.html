@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Footprints{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4">Footprints</h1>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="footprintTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="create-tab" data-toggle="tab" href="#create" role="tab" aria-controls="create" aria-selected="true">Create Footprint</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="list-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="false">My Footprints</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="create" role="tabpanel" aria-labelledby="create-tab">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_distance">Distance</label>
+                    {{ form.distance }}
+                </div>
+                <div class="form-group">
+                    <label for="id_method">Method</label>
+                    {{ form.method }}
+                </div>
+                <div class="form-group">
+                    <label for="id_date">活動時間</label>
+                    <div class="input-group">
+                        {{ form.date }}
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-secondary" id="set-today">今天</button>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+        <div class="tab-pane fade" id="list" role="tabpanel" aria-labelledby="list-tab">
+            <h2 class="mt-4">My Footprints</h2>
+            <ul class="list-group">
+                {% for footprint in footprints %}
+                    <li class="list-group-item">
+                        <strong>User:</strong> {{ footprint.users_id }}</br>
+                        <strong>Date:</strong> {{ footprint.date }}<br>
+                        <strong>Distance:</strong> {{ footprint.distance }} km<br>
+                        <strong>Method:</strong> {{ footprint.method }}<br>
+                        <strong>Carbon Footprint:</strong> {{ footprint.carbon_footprint }} kg
+                    </li>
+                {% endfor %}
+                {% if not footprints %}
+                    <li class="list-group-item">You have no footprints recorded.</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.getElementById('id_date');
+        const setTodayButton = document.getElementById('set-today');
+
+        if (setTodayButton) {
+            setTodayButton.addEventListener('click', function() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                dateInput.value = `${year}-${month}-${day} ${hours}:${minutes}`;
+            });
+        }
+    });
+</script>
+{% endblock %}

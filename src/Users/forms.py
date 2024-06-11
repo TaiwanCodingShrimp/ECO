@@ -5,7 +5,7 @@ from django.contrib.auth.forms import (
     UserCreationForm,
 )
 
-from .models import Leftover, User, Waste
+from .models import FootPrint, Leftover, User, Waste
 
 
 class SignUpForm(UserCreationForm):
@@ -81,3 +81,10 @@ class LeftoverForm(forms.ModelForm):
     class Meta:
         model = Leftover
         fields = ["item", "provider", "label", "portion", "sent_to", "status"]
+
+
+class FootPrintForm(forms.ModelForm):
+    class Meta:
+        model = FootPrint
+        fields = ["distance", "method", "date"]
+        exclude = ["user", "carbon_footprint"]
