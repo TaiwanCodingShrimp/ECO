@@ -6,6 +6,7 @@ from .views import (
     create_board_view,
     donation_view,
     food_bank_view,
+    footprint_view,
     home_view,
     index_view,
     login_view,
@@ -28,6 +29,7 @@ urlpatterns = [
     path("home/users/report/", report_view, name="report"),
     path("home/users/WelfareOrganization/", welfare_organization_view, name="welfare"),
     path("home/users/FoodBank", food_bank_view, name="foodbank"),
+    path("home/users/footprint", footprint_view, name="footprint"),
     path("home/users/donation/", donation_view, name="donation"),
     path("home/users/", users_view, name="users"),
 ]
