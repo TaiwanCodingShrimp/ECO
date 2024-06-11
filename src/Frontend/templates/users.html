@@ -1,17 +1,30 @@
 {% extends 'base.html' %}
 
-{% block title %}User info{% endblock %}
+{% block title %}User Info{% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1 class="mt-4">User info</h1>
-    <ul class="list-group">
-            <li class="list-group-item">
-                <strong>Title:</strong> {{ user.title }}<br>
-                <strong>Email:</strong> {{ user.email }}<br>
-                <strong>Phone:</strong> {{ user.phone }}
-            </li>
-    </ul>
-    <a href="{% url 'report' %}" class="bg-dark-green btn btn-primary mt-4">Create Report</a>
+    <h1 class="mt-4">User Info</h1>
+    <form method="post" action="{% url 'users' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" readonly>
+        </div>        
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ user.title }}">
+        </div>
+        <div class="form-group">
+            <label for="location">Location:</label>
+            <input type="text" class="form-control" id="location" name="location" value="{{ user.location }}">
+        </div>
+        <div class="form-group">
+            <label for="phone">Phone:</label>
+            <input type="text" class="form-control" id="phone" name="phone" value="{{ user.phone }}">
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+    <a href="{% url 'report' %}" class="bg-dark-green btn btn-primary mt-4">Generate Report</a>
 </div>
 {% endblock %}
