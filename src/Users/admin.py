@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 
 from .forms import UserChangeForm, UserCreationForm
-from .models import Leftover, User, Waste
+from .models import FoodTable, Leftover, User, Waste
 
 
 class UserAdmin(BaseUserAdmin):
@@ -67,6 +67,16 @@ class LeftoverAdmin(admin.ModelAdmin):
     search_fields = ("item", "provider", "status")
 
 
+class FoodTableAdmin(admin.ModelAdmin):
+    list_display = (
+        "item",
+        "carbon_factor",
+    )
+    list_filter = ("item", "carbon_factor")
+    search_fields = ("item", "carbon_factor")
+
+
+admin.site.register(FoodTable, FoodTableAdmin)
 admin.site.register(Waste, WasteAdmin)
 admin.site.register(Leftover, LeftoverAdmin)
 admin.site.register(User, UserAdmin)

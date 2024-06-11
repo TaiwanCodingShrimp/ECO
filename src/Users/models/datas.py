@@ -46,21 +46,22 @@ class Waste(models.Model):
     def __str__(self) -> str:
         return str(self.id)
 
-class Food_Table(models.Model):
+
+class FoodTable(models.Model):
     item = models.CharField(max_length=20, primary_key=True)
-    carbon_footprint = models.FloatField(
+    carbon_factor = models.FloatField(
         default=0.0,
         help_text="對應碳足跡",
-        validators=[MinValueValidator(0), MaxValueValidator(10000)], 
+        validators=[MinValueValidator(0), MaxValueValidator(10000)],
     )
 
-    def __str__(self)-> str:
-        return str(self.carbon_footprint)
-    
+    def __str__(self) -> str:
+        return str(self.item)
+
 
 class Leftover(models.Model):
     id = models.AutoField(primary_key=True)
-    item: Food_Table = models.ForeignKey(Food_Table, on_delete=models.CASCADE, null=True)
+    item: FoodTable = models.ForeignKey(FoodTable, on_delete=models.CASCADE, null=True)
     # item = models.CharField(max_length=20, null=False)
     provider = models.CharField(max_length=10, null=False)
     date_put_in = models.DateTimeField(auto_now_add=True)
@@ -74,4 +75,3 @@ class Leftover(models.Model):
 
     def __str__(self) -> str:
         return str(self.id)
-    
