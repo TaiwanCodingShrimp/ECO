@@ -11,7 +11,7 @@ from django.views.generic import TemplateView
 from Users.models import FootPrint
 from Users.schema import CommuteMethod
 
-from .schema import Commutechart, CommuteCharts, CommuteData
+from .schema import AllCommuteChart, Commutechart, CommuteCharts, CommuteData, DailyData
 
 
 class ReportView(TemplateView):
@@ -79,6 +79,30 @@ class ReportView(TemplateView):
         chart = Commutechart(method=method, commute_datasets=datas)
         return chart
 
+    def _get_all_method_chart(
+        self,
+        report_data: pd.DataFrame,
+    ) -> AllCommuteChart:
+        grouped_by_date_data = (
+            report_data.groupby([self.DataFrameColumns.DATE])[
+                self.DataFrameColumns.CARBON_FOOTPRINT
+            ]
+            .sum()
+            .reset_index()
+        )
+        datas = []
+        for index, row in grouped_by_date_data.iterrows():
+            data = DailyData(
+                date=row[self.DataFrameColumns.DATE],
+                carbon_footprint=row[self.DataFrameColumns.CARBON_FOOTPRINT],
+            )
+            datas.append(data)
+        chart = AllCommuteChart(
+            title="Daily Total Footprint",
+            dataset=datas,
+        )
+        return chart
+
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         context = super().get_context_data(**kwargs)
         start_date_str = self.request.GET.get("start_date", str(self.start_date))
@@ -106,7 +130,11 @@ class ReportView(TemplateView):
             commute_time_charts = self.get_commute_method_charts(
                 report_data=commute_data
             )
+            daily_total_chart = self._get_all_method_chart(report_data=commute_data)
             commute_time_charts_dict = commute_time_charts.dict()
+            daily_total_chart = daily_total_chart.dict()
+            for dataset in daily_total_chart["dataset"]:
+                dataset["date"] = dataset["date"].isoformat()
 
             # Convert date objects to strings
             for chart in commute_time_charts_dict["charts"]:
@@ -114,5 +142,5 @@ class ReportView(TemplateView):
                     dataset["date"] = dataset["date"].isoformat()
 
             context["commute_metrics"] = json.dumps(commute_time_charts_dict)
-
+            context["daily_commute_matrics"] = json.dumps(daily_total_chart)
         return context

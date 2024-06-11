@@ -48,6 +48,10 @@
             border-radius: 5px;
             background-color: #f9f9f9;
         }
+        .right-container {
+            flex: 1;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -61,10 +65,12 @@
         </div>
         <div class="main-container">
             <div class="charts-container" id="charts-container"></div>
+            <div class="right-container" id="right-container"></div>
         </div>
     </div>
 
     <script id="commuteMetrics" type="application/json">{{ commute_metrics|safe }}</script>
+    <script id="dailyCommuteMetrics" type="application/json">{{ daily_commute_matrics|safe }}</script>
     <script type="text/javascript">
         function updateCharts() {
             const startDate = document.getElementById("startDate").value;
@@ -87,6 +93,9 @@
                 const commuteMetricsScript = document.getElementById('commuteMetrics').textContent;
                 window.COMMUTE_METRICS = JSON.parse(commuteMetricsScript);
                 const charts = window.COMMUTE_METRICS.charts;
+
+                const dailyCommuteMetricsScript = document.getElementById('dailyCommuteMetrics').textContent;
+                const dailyMetrics = JSON.parse(dailyCommuteMetricsScript);
 
                 function createCanvas(method) {
                     const card = document.createElement("div");
@@ -175,6 +184,92 @@
                     }));
                     createChart(canvas, datasets);
                 }
+
+                // Create daily commute metrics chart
+                function createDailyCanvas() {
+                    const card = document.createElement("div");
+                    card.className = "card";
+
+                    const title = document.createElement("h3");
+                    const title_txt = document.createTextNode("Daily Total Footprint");
+                    title.appendChild(title_txt);
+
+                    const chart = document.createElement("canvas");
+                    chart.id = "daily-canvas";
+                    chart.width = "600";
+                    chart.height = "400";
+                    chart.style.minHeight = "300px";
+                    chart.style.display = "block";
+
+                    card.appendChild(title);
+                    card.appendChild(chart);
+
+                    const container = document.getElementById("right-container");
+                    container.appendChild(card);
+
+                    return chart;
+                }
+
+                function createDailyChart(canvas, datasets) {
+                    const chartData = {
+                        labels: datasets.map(dataset => dataset.date),
+                        datasets: [{
+                            label: "Daily Total Footprint",
+                            data: datasets.map(dataset => dataset.carbon_footprint),
+                            borderColor: '#36A2EB',
+                            backgroundColor: 'rgba(54,162,235,0.2)',
+                            fill: false,
+                            tension: 0.1,
+                            borderWidth: 2,
+                            pointRadius: 4,
+                            pointBorderWidth: 2,
+                            pointHoverRadius: 4,
+                            pointHoverBorderWidth: 1,
+                        }]
+                    };
+
+                    new Chart(canvas, {
+                        type: 'line',
+                        data: chartData,
+                        options: {
+                            responsive: false,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        fontColor: 'rgb(154, 154, 154)',
+                                        fontSize: 11,
+                                        usePointStyle: true,
+                                        padding: 10
+                                    }
+                                },
+                                tooltip: {
+                                    titleFontColor: '#39392E',
+                                    bodyFontColor: '#39392E',
+                                    backgroundColor: 'rgba(154, 154, 154, 154)',
+                                    bodySpacing: 4,
+                                    mode: "index",
+                                    intersect: 0,
+                                    position: "nearest",
+                                    xPadding: 10,
+                                    yPadding: 10,
+                                    caretPadding: 10,
+                                }
+                            },
+                            layout: {
+                                padding: { left: 10, right: 10, top: 20, bottom: 30 }
+                            }
+                        }
+                    });
+                }
+
+                const dailyCanvas = createDailyCanvas();
+                const dailyDatasets = dailyMetrics.dataset.map(dataset => ({
+                    date: dataset.date,
+                    carbon_footprint: dataset.carbon_footprint
+                }));
+                createDailyChart(dailyCanvas, dailyDatasets);
 
             } catch (e) {
                 console.error("Error parsing JSON:", e);

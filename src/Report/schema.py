@@ -16,3 +16,13 @@ class Commutechart(pydantic.BaseModel):
 
 class CommuteCharts(pydantic.BaseModel):
     charts: List[Commutechart] = []
+
+
+class DailyData(pydantic.BaseModel):
+    date: date
+    carbon_footprint: float
+
+
+class AllCommuteChart(pydantic.BaseModel):
+    title: str
+    dataset: List[DailyData]
