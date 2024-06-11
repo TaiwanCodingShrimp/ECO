@@ -102,11 +102,15 @@ def donation_view(request):
         if "waste_form" in request.POST:
             waste_form = WasteForm(request.POST)
             if waste_form.is_valid():
+                waste = waste_form.save(commit=False)
+                waste.provider = request.user
                 waste_form.save()
                 return redirect("donation")
         elif "leftover_form" in request.POST:
             leftover_form = LeftoverForm(request.POST)
             if leftover_form.is_valid():
+                leftover = leftover_form.save(commit=False)
+                leftover.provider = request.user
                 leftover_form.save()
                 return redirect("donation")
 

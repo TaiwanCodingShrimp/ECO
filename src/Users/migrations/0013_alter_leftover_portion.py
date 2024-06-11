@@ -5,15 +5,21 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('Users', '0012_leftover_food_carbon_footprint_and_more'),
+        ("Users", "0012_leftover_food_carbon_footprint_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='leftover',
-            name='portion',
-            field=models.FloatField(default=0.0, help_text='食物重量', validators=[django.core.validators.MinValueValidator(0.0), django.core.validators.MaxValueValidator(10000.0)]),
+            model_name="leftover",
+            name="portion",
+            field=models.FloatField(
+                default=0.0,
+                help_text="食物重量",
+                validators=[
+                    django.core.validators.MinValueValidator(0.0),
+                    django.core.validators.MaxValueValidator(10000.0),
+                ],
+            ),
         ),
     ]

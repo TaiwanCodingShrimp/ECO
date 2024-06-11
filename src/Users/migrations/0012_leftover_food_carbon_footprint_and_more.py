@@ -5,25 +5,38 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('Users', '0011_rename_user_id_footprint_users_id_and_more'),
+        ("Users", "0011_rename_user_id_footprint_users_id_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='leftover',
-            name='food_carbon_footprint',
-            field=models.FloatField(default=0.0, validators=[django.core.validators.MinValueValidator(0), django.core.validators.MaxValueValidator(10000)], verbose_name='食物累計碳足跡'),
+            model_name="leftover",
+            name="food_carbon_footprint",
+            field=models.FloatField(
+                default=0.0,
+                validators=[
+                    django.core.validators.MinValueValidator(0),
+                    django.core.validators.MaxValueValidator(10000),
+                ],
+                verbose_name="食物累計碳足跡",
+            ),
         ),
         migrations.AlterField(
-            model_name='leftover',
-            name='date_put_in',
+            model_name="leftover",
+            name="date_put_in",
             field=models.DateTimeField(),
         ),
         migrations.AlterField(
-            model_name='leftover',
-            name='portion',
-            field=models.FloatField(default=0.0, help_text='對應', validators=[django.core.validators.MinValueValidator(0.0), django.core.validators.MaxValueValidator(10000.0)]),
+            model_name="leftover",
+            name="portion",
+            field=models.FloatField(
+                default=0.0,
+                help_text="對應",
+                validators=[
+                    django.core.validators.MinValueValidator(0.0),
+                    django.core.validators.MaxValueValidator(10000.0),
+                ],
+            ),
         ),
     ]
