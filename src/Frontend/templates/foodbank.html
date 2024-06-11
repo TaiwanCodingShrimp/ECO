@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}篩選食物銀行{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mt-4">選擇附近的食物銀行</h1>
+
+    <form id="food-bank-form" method="GET" class="form-inline my-4">
+        <input type="hidden" name="type" value="food_bank">
+        <div class="form-group mr-2">
+            <label for="county-food-bank" class="mr-2">選擇縣市:</label>
+            <select id="county-food-bank" name="county" class="form-control">
+                <option value="">所有縣市</option>
+                {% for c in counties %}
+                    <option value="{{ c }}" {% if c == selected_county %}selected{% endif %}>{{ c }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group mr-2">
+            <label for="district-food-bank" class="mr-2">選擇地區:</label>
+            <select id="district-food-bank" name="district" class="form-control">
+                <option value="">所有地區</option>
+                {% for d in districts %}
+                    <option value="{{ d }}" {% if d == selected_district %}selected{% endif %}>{{ d }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">篩選</button>
+    </form>
+
+    <h2>食物銀行</h2>
+    <ul class="list-group">
+        {% for org in organizations %}
+            <li class="list-group-item">
+                <strong>{{ org.name }}</strong><br>
+                地址: {{ org.address }}<br>
+                電話: {{ org.contact }}
+            </li>
+        {% endfor %}
+        {% if organizations|length == 0 %}
+            <li class="list-group-item">沒有找到符合條件的結果。</li>
+        {% endif %}
+    </ul>
+</div>
+
+<script>
+    document.getElementById('county-food-bank').addEventListener('change', function() {
+        document.getElementById('district-food-bank').selectedIndex = 0; // Reset district selection
+        document.getElementById('food-bank-form').submit(); // Submit the form
+    });
+</script>
+{% endblock %}

@@ -63,51 +63,6 @@ def board_view(request):
 
 
 @login_required
-def organizations_view(request):
-    selected_type = request.GET.get("type", "organization")
-    selected_county = request.GET.get("county", "")
-    selected_district = request.GET.get("district", "")
-
-    if selected_type == "organization":
-        model = WelfareOrganization
-    elif selected_type == "food_bank":
-        model = Food_Bank
-    else:
-        model = None
-
-    counties = []
-    districts = []
-    organizations = []
-
-    if model:
-        counties = model.objects.values_list("county", flat=True).distinct()
-        if selected_county:
-            districts = (
-                model.objects.filter(county=selected_county)
-                .values_list("district", flat=True)
-                .distinct()
-            )
-        else:
-            districts = model.objects.values_list("district", flat=True).distinct()
-
-        organizations = model.objects.all()
-        if selected_county:
-            organizations = organizations.filter(county=selected_county)
-        if selected_district:
-            organizations = organizations.filter(district=selected_district)
-
-    context = {
-        "selected_type": selected_type,
-        "counties": counties,
-        "districts": districts,
-        "organizations": organizations,
-        "selected_county": selected_county,
-        "selected_district": selected_district,
-    }
-    return render(request, "organizations.html", context)
-
-
-@login_required
 def report_view(request):
     return render(request, "report.html")
 
@@ -165,3 +120,65 @@ def donation_view(request):
         "leftovers": leftovers,
     }
     return render(request, "donation.html", context)
+
+
+def welfare_organization_view(request):
+    selected_county = request.GET.get("county", "")
+    selected_district = request.GET.get("district", "")
+
+    counties = WelfareOrganization.objects.values_list("county", flat=True).distinct()
+    if selected_county:
+        districts = (
+            WelfareOrganization.objects.filter(county=selected_county)
+            .values_list("district", flat=True)
+            .distinct()
+        )
+    else:
+        districts = WelfareOrganization.objects.values_list(
+            "district", flat=True
+        ).distinct()
+
+    organizations = WelfareOrganization.objects.all()
+    if selected_county:
+        organizations = organizations.filter(county=selected_county)
+    if selected_district:
+        organizations = organizations.filter(district=selected_district)
+
+    context = {
+        "selected_county": selected_county,
+        "selected_district": selected_district,
+        "counties": counties,
+        "districts": districts,
+        "organizations": organizations,
+    }
+    return render(request, "welfare.html", context)
+
+
+def food_bank_view(request):
+    selected_county = request.GET.get("county", "")
+    selected_district = request.GET.get("district", "")
+
+    counties = Food_Bank.objects.values_list("county", flat=True).distinct()
+    if selected_county:
+        districts = (
+            Food_Bank.objects.filter(county=selected_county)
+            .values_list("district", flat=True)
+            .distinct()
+        )
+    else:
+        districts = Food_Bank.objects.values_list("district", flat=True).distinct()
+
+    organizations = Food_Bank.objects.all()
+    if selected_county:
+        organizations = organizations.filter(county=selected_county)
+    if selected_district:
+        organizations = organizations.filter(district=selected_district)
+
+    context = {
+        "selected_county": selected_county,
+        "selected_district": selected_district,
+        "counties": counties,
+        "districts": districts,
+        "organizations": organizations,
+    }
+    return render(request, "foodbank.html", context)
