@@ -5,7 +5,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from Board.forms import BoardForm
 from Board.models import Board
 from Organization.models import Food_Bank, WelfareOrganization
-from Users.forms import LoginForm, SignUpForm
+from Users.forms import LeftoverForm, LoginForm, SignUpForm, WasteForm
+from Users.models import Leftover, Waste
 
 
 def index_view(request):
@@ -74,6 +75,10 @@ def organizations_view(request):
     else:
         model = None
 
+    counties = []
+    districts = []
+    organizations = []
+
     if model:
         counties = model.objects.values_list("county", flat=True).distinct()
         if selected_county:
@@ -90,12 +95,7 @@ def organizations_view(request):
             organizations = organizations.filter(county=selected_county)
         if selected_district:
             organizations = organizations.filter(district=selected_district)
-    else:
-        counties = []
-        districts = []
-        organizations = []
 
-    # 將過濾後的數據傳遞給模板
     context = {
         "selected_type": selected_type,
         "counties": counties,
@@ -136,3 +136,32 @@ def create_board_view(request):
 def board_detail_view(request, board_id):
     board = get_object_or_404(Board, pk=board_id)
     return render(request, "boarddetail.html", {"board": board})
+
+
+@login_required
+def donation_view(request):
+    waste_form = WasteForm()
+    leftover_form = LeftoverForm()
+
+    if request.method == "POST":
+        if "waste_form" in request.POST:
+            waste_form = WasteForm(request.POST)
+            if waste_form.is_valid():
+                waste_form.save()
+                return redirect("donation")
+        elif "leftover_form" in request.POST:
+            leftover_form = LeftoverForm(request.POST)
+            if leftover_form.is_valid():
+                leftover_form.save()
+                return redirect("donation")
+
+    wastes = Waste.objects.all()
+    leftovers = Leftover.objects.all()
+
+    context = {
+        "waste_form": waste_form,
+        "leftover_form": leftover_form,
+        "wastes": wastes,
+        "leftovers": leftovers,
+    }
+    return render(request, "donation.html", context)

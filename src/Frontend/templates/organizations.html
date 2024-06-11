@@ -5,50 +5,119 @@
 {% block content %}
 <div class="container">
     <h1 class="mt-4">選擇附近的社福機構和食物銀行</h1>
-    <form method="GET" class="form-inline my-4">
-        <div class="form-group mr-2">
-            <label for="type" class="mr-2">選擇類型:</label>
-            <select id="type" name="type" class="form-control" onchange="this.form.submit()">
-                <option value="organization" {% if selected_type == 'organization' %}selected{% endif %}>社福機構</option>
-                <option value="food_bank" {% if selected_type == 'food_bank' %}selected{% endif %}>食物銀行</option>
-            </select>
-        </div>
-        <div class="form-group mr-2">
-            <label for="county" class="mr-2">選擇縣市:</label>
-            <select id="county" name="county" class="form-control" onchange="this.form.submit()">
-                <option value="">所有縣市</option>
-                {% for c in counties %}
-                    <option value="{{ c }}" {% if c == selected_county %}selected{% endif %}>{{ c }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group mr-2">
-            <label for="district" class="mr-2">選擇地區:</label>
-            <select id="district" name="district" class="form-control" onchange="this.form.submit()">
-                <option value="">所有地區</option>
-                {% for d in districts %}
-                    <option value="{{ d }}" {% if d == selected_district %}selected{% endif %}>{{ d }}</option>
-                {% endfor %}
-            </select>
-        </div>
-    </form>
 
-    <h2>結果</h2>
-    <ul class="list-group">
-        {% for org in organizations %}
-            <li class="list-group-item">
-                <strong>{{ org.name }}</strong><br>
-                地址: {{ org.address }}<br>
-                {% if selected_type == 'organization' %}
-                電話: {{ org.phone }}
-                {% else %}
-                聯絡方式: {{ org.contact }}
-                {% endif %}
-            </li>
-        {% endfor %}
-        {% if organizations|length == 0 %}
-            <li class="list-group-item">沒有找到符合條件的結果。</li>
-        {% endif %}
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link {% if selected_type == 'organization' %}active{% endif %}" id="organization-tab" data-toggle="tab" href="#organization" role="tab" aria-controls="organization" aria-selected="{% if selected_type == 'organization' %}true{% else %}false{% endif %}">社福機構</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {% if selected_type == 'food_bank' %}active{% endif %}" id="food-bank-tab" data-toggle="tab" href="#food-bank" role="tab" aria-controls="food-bank" aria-selected="{% if selected_type == 'food_bank' %}true{% else %}false{% endif %}">食物銀行</a>
+        </li>
     </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane fade {% if selected_type == 'organization' %}show active{% endif %}" id="organization" role="tabpanel" aria-labelledby="organization-tab">
+            <form id="organization-form" method="GET" class="form-inline my-4">
+                <input type="hidden" name="type" value="organization">
+                <div class="form-group mr-2">
+                    <label for="county-organization" class="mr-2">選擇縣市:</label>
+                    <select id="county-organization" name="county" class="form-control" onchange="this.form.submit()">
+                        <option value="">所有縣市</option>
+                        {% for c in counties %}
+                            <option value="{{ c }}" {% if c == selected_county %}selected{% endif %}>{{ c }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group mr-2">
+                    <label for="district-organization" class="mr-2">選擇地區:</label>
+                    <select id="district-organization" name="district" class="form-control" onchange="this.form.submit()">
+                        <option value="">所有地區</option>
+                        {% for d in districts %}
+                            <option value="{{ d }}" {% if d == selected_district %}selected{% endif %}>{{ d }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+
+            <h2>社福機構</h2>
+            <ul class="list-group">
+                {% for org in organizations %}
+                    <li class="list-group-item">
+                        <strong>{{ org.name }}</strong><br>
+                        地址: {{ org.address }}<br>
+                        電話: {{ org.phone }}
+                    </li>
+                {% endfor %}
+                {% if organizations|length == 0 %}
+                    <li class="list-group-item">沒有找到符合條件的結果。</li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="tab-pane fade {% if selected_type == 'food_bank' %}show active{% endif %}" id="food-bank" role="tabpanel" aria-labelledby="food-bank-tab">
+            <form id="food-bank-form" method="GET" class="form-inline my-4">
+                <input type="hidden" name="type" value="food_bank">
+                <div class="form-group mr-2">
+                    <label for="county-food-bank" class="mr-2">選擇縣市:</label>
+                    <select id="county-food-bank" name="county" class="form-control" onchange="this.form.submit()">
+                        <option value="">所有縣市</option>
+                        {% for c in counties %}
+                            <option value="{{ c }}" {% if c == selected_county %}selected{% endif %}>{{ c }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group mr-2">
+                    <label for="district-food-bank" class="mr-2">選擇地區:</label>
+                    <select id="district-food-bank" name="district" class="form-control" onchange="this.form.submit()">
+                        <option value="">所有地區</option>
+                        {% for d in districts %}
+                            <option value="{{ d }}" {% if d == selected_district %}selected{% endif %}>{{ d }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+
+            <h2>食物銀行</h2>
+            <ul class="list-group">
+                {% for org in organizations %}
+                    <li class="list-group-item">
+                        <strong>{{ org.name }}</strong><br>
+                        地址: {{ org.address }}<br>
+                        電話: {{ org.contact }}
+                    </li>
+                {% endfor %}
+                {% if organizations|length == 0 %}
+                    <li class="list-group-item">沒有找到符合條件的結果。</li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
 </div>
+
+<script>
+    $(document).ready(function(){
+        $('#myTab a').on('click', function (e) {
+            e.preventDefault();
+            var type = $(this).attr('href').substring(1); // 獲取選項卡類型 ('organization' 或 'food-bank')
+            var url = new URL(window.location.href);
+            url.searchParams.set('type', type);
+            window.location.href = url.toString(); // 重定向到新的URL，包含新的類型參數
+        });
+
+        // 根據選擇的選項卡初始化表單
+        var selectedType = '{{ selected_type }}';
+        if (selectedType === 'organization') {
+            $('#organization-tab').addClass('active');
+            $('#organization').addClass('show active');
+            $('#food-bank-tab').removeClass('active');
+            $('#food-bank').removeClass('show active');
+        } else if (selectedType === 'food_bank') {
+            $('#food-bank-tab').addClass('active');
+            $('#food-bank').addClass('show active');
+            $('#organization-tab').removeClass('active');
+            $('#organization').removeClass('show active');
+        }
+    });
+</script>
 {% endblock %}

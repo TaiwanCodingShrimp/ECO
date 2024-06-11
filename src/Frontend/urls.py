@@ -4,6 +4,7 @@ from .views import (
     board_detail_view,
     board_view,
     create_board_view,
+    donation_view,
     home_view,
     index_view,
     login_view,
@@ -25,5 +26,6 @@ urlpatterns = [
     path("home/board/<int:board_id>/", board_detail_view, name="board_detail"),
     path("home/organizations/", organizations_view, name="organizations"),
     path("home/users/report/", report_view, name="report"),
+    path("home/users/donation/", donation_view, name="donation"),
     path("home/users/", users_view, name="users"),
 ]

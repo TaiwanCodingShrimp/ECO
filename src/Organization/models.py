@@ -20,7 +20,7 @@ class WelfareOrganization(models.Model):
     address: str = models.CharField(max_length=60, null=True)
 
     def __str__(self) -> str:
-        return str(self.id)
+        return str(self.name)
 
 
 class Food_Bank(models.Model):
@@ -32,4 +32,4 @@ class Food_Bank(models.Model):
     contact: str = models.CharField(max_length=20)
 
     def __str__(self) -> str:
-        return str(self.id)
+        return str(self.name)

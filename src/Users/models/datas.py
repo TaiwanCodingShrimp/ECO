@@ -2,6 +2,8 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from enumfields import EnumField
 
+from Organization.models import Food_Bank, WelfareOrganization
+
 from ..schema import CommuteMethod
 from .user_info import User
 
@@ -35,8 +37,10 @@ class Waste(models.Model):
     item = models.CharField(max_length=20, null=False)
     provider = models.CharField(max_length=10, null=False)
     date_put_in = models.DateTimeField(auto_now_add=True)
-    label = models.DateTimeField(max_length=20, null=False)
-    sent_to = models.CharField(max_length=20)
+    label = models.CharField(max_length=20, null=False)
+    sent_to = models.ForeignKey(
+        WelfareOrganization, on_delete=models.CASCADE, null=True
+    )
     status = models.CharField(max_length=20)
 
     def __str__(self) -> str:
@@ -48,13 +52,12 @@ class Leftover(models.Model):
     item = models.CharField(max_length=20, null=False)
     provider = models.CharField(max_length=10, null=False)
     date_put_in = models.DateTimeField(auto_now_add=True)
-    label = models.DateTimeField(max_length=20, null=False)
+    label = models.CharField(max_length=20, null=False)
     portion = models.CharField(
         max_length=20,
         null=False,
-        validators=(MinValueValidator(0), MaxValueValidator(1000)),
     )
-    sent_to = models.CharField(max_length=20)
+    sent_to = models.ForeignKey(Food_Bank, on_delete=models.CASCADE, null=True)
     status = models.CharField(max_length=20)
 
     def __str__(self) -> str:
