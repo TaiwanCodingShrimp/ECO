@@ -1,0 +1,202 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Commute Carbon Footprint Report</title>
+    <!-- <link rel="stylesheet" href="{% static 'css/styles.css' %}"> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+        .top-container {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .top-container label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .top-container input[type="date"] {
+            width: 200px;  /* Increase width */
+            height: 40px;  /* Increase height */
+            font-size: 18px;  /* Increase font size */
+            padding: 8px;  /* Increase padding */
+            margin-right: 10px;
+            box-sizing: border-box;  /* Ensure padding and border are included in the width and height */
+        }
+        .main-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .charts-container {
+            flex: 2;
+            padding: 10px;
+        }
+        .card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Commute Carbon Footprint Report</h1>
+    <div class="container">
+        <div class="top-container">
+            <label for="startDate">Date Range: </label>
+            <input id="startDate" type="date" value="{{ start_date }}" onchange="updateCharts();">
+            <label for="endDate"> ~ </label>
+            <input id="endDate" type="date" value="{{ end_date }}" onchange="updateCharts();">
+        </div>
+        <div class="main-container">
+            <div class="charts-container" id="charts-container"></div>
+        </div>
+    </div>
+
+    <script id="commuteMetrics" type="application/json">{{ commute_metrics|safe }}</script>
+    <script type="text/javascript">
+        function updateCharts() {
+            const startDate = document.getElementById("startDate").value;
+            const endDate = document.getElementById("endDate").value;
+
+            if (startDate && endDate) {
+                let prefix = window.location.pathname;
+                window.location.href = `${prefix}?start_date=${startDate}&end_date=${endDate}`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const startDate = "{{ start_date }}";
+            const endDate = "{{ end_date }}";
+
+            document.getElementById('startDate').value = startDate || new Date().toISOString().split('T')[0];
+            document.getElementById('endDate').value = endDate || new Date().toISOString().split('T')[0];
+
+            try {
+                const commuteMetricsScript = document.getElementById('commuteMetrics').textContent;
+                console.log("Commute Metrics JSON:", commuteMetricsScript);
+                window.COMMUTE_METRICS = JSON.parse(commuteMetricsScript);
+                const charts = window.COMMUTE_METRICS.charts;
+
+                function createCanvas(method) {
+                    const card = document.createElement("div");
+                    card.className = "card";
+
+                    const title = document.createElement("h3");
+                    const title_txt = document.createTextNode(method);
+                    title.appendChild(title_txt);
+
+                    const chart = document.createElement("canvas");
+                    chart.id = "canvas-" + method;
+                    chart.width = "600";
+                    chart.height = "400";
+                    chart.style.minHeight = "300px";
+                    chart.style.display = "block";
+
+                    card.appendChild(title);
+                    card.appendChild(chart);
+
+                    const container = document.getElementById("charts-container");
+                    container.appendChild(card);
+
+                    return chart;
+                }
+
+                function createChart(canvas, datasets) {
+                    console.log("Creating chart with datasets:", datasets); // Debugging log
+                    new Chart(canvas, {
+                        type: 'line',
+                        data: {
+                            datasets
+                        },
+                        options: {
+                            responsive: false,
+                            maintainAspectRatio: false,
+                            datasets: {
+                                line: {
+                                    tension: 0.1,
+                                    borderWidth: 2,
+                                    pointRadius: 4,
+                                    pointBorderWidth: 2,
+                                    pointHoverRadius: 4,
+                                    pointHoverBorderWidth: 1,
+                                    fill: false,
+                                    pointBorderColor: "#F5F5F4",
+                                    backgroundColor: 'transparent',
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        fontColor: 'rgb(154, 154, 154)',
+                                        fontSize: 11,
+                                        usePointStyle: true,
+                                        padding: 10
+                                    }
+                                },
+                                tooltip: {
+                                    titleFontColor: '#39392E',
+                                    bodyFontColor: '#39392E',
+                                    backgroundColor: 'rgba(154, 154, 154, 154)',
+                                    bodySpacing: 4,
+                                    mode: "index",
+                                    intersect: 0,
+                                    position: "nearest",
+                                    xPadding: 10,
+                                    yPadding: 10,
+                                    caretPadding: 10,
+                                },
+                                colors: {
+                                    forceOverride: true
+                                },
+                            },
+                            layout: {
+                                padding: { left: 10, right: 10, top: 20, bottom: 30 }
+                            }
+                        }
+                    });
+                }
+
+                for (let chart of charts) {
+                    const canvas = createCanvas(chart.method);
+                    const datasets = chart.commute_datasets.map(dataset => ({
+                        label: chart.method,
+                        data: [{ x: dataset.date, y: dataset.carbon_footprint }],
+                        borderColor: '#FF6384', // Add some colors for differentiation
+                        backgroundColor: 'rgba(255,99,132,0.2)',
+                    }));
+                    console.log("Datasets for chart:", datasets); // Debugging log
+                    createChart(canvas, datasets);
+                }
+
+            } catch (e) {
+                console.error("Error parsing JSON:", e);
+            }
+        });
+    </script>
+</body>
+</html>

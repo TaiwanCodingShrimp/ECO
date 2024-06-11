@@ -63,11 +63,6 @@ def board_view(request):
 
 
 @login_required
-def report_view(request):
-    return render(request, "report.html")
-
-
-@login_required
 def users_view(request):
     user = request.user
     # user = User.objects.get(pk=request.user.pk)
