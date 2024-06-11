@@ -6,7 +6,7 @@ import pydantic
 
 
 class CommuteMethod(str, Enum):
-    Car = ("car",)
+    Car = "car"
     Electric_car = "electric_car"
     Motorcycle = "motorcycle"
     Electric_motorcycle = "electric_motorcycle"

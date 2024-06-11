@@ -1,8 +1,10 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from enumfields import EnumField
-from ..schema import CarbonFootprintReportData, CommuteMethod
+
 from Organization.models import Food_Bank, WelfareOrganization
+
+from ..schema import CarbonFootprintReportData, CommuteMethod
 from .user_info import User
 
 
@@ -56,6 +58,7 @@ class Waste(models.Model):
 
     def __str__(self) -> str:
         return str(self.id)
+
 
 class FoodTable(models.Model):
     item = models.CharField(max_length=20, primary_key=True)
