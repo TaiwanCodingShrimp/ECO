@@ -74,14 +74,14 @@ class UserChangeForm(forms.ModelForm):
 class WasteForm(forms.ModelForm):
     class Meta:
         model = Waste
-        fields = ["item", "sent_to", "status"]
+        fields = ["item", "sent_to", "status", "date_put_in"]
 
 
 class LeftoverForm(forms.ModelForm):
     class Meta:
         model = Leftover
-        fields = ["item", "portion", "sent_to", "status"]
-        exclude = ["id", "food_carbon_footprint", "provider", "date_put_in"]
+        fields = ["item", "portion", "sent_to", "status", "date_put_in"]
+        exclude = ["id", "food_carbon_footprint", "provider"]
 
 
 class FootPrintForm(forms.ModelForm):
