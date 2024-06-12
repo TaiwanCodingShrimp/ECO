@@ -122,20 +122,21 @@ class ReportView(TemplateView):
             "carbon_footprint_leftover"
         ].fillna(0) - merged_data_outer["carbon_footprint_commute"].fillna(0)
         # Drop unnecessary columns
-        result_outer = merged_data_outer[["date", "carbon_footprint"]]
-
-        datas = []
-        for index, row in result_outer.iterrows():
-            data = TotalDailyData(
-                date=row[self.DataFrameColumns.DATE],
-                carbon_footprint=row[self.DataFrameColumns.CARBON_FOOTPRINT],
+        if not merged_data_outer.empty:
+            result_outer = merged_data_outer[["date", "carbon_footprint"]]
+            datas = []
+            for index, row in result_outer.iterrows():
+                data = TotalDailyData(
+                    date=row[self.DataFrameColumns.DATE],
+                    carbon_footprint=row[self.DataFrameColumns.CARBON_FOOTPRINT],
+                )
+                datas.append(data)
+            chart = TotalChart(
+                title="The carbon_footprint you saved",
+                dataset=datas,
             )
-            datas.append(data)
-        chart = TotalChart(
-            title="The carbon_footprint you saved",
-            dataset=datas,
-        )
-        return chart
+            return chart
+        return TotalChart(title="empty", dataset=[])
 
     def get_leftover_pd(self, end_date: date, start_date: date) -> pd.DataFrame:
         leftover_pd = pd.DataFrame(
