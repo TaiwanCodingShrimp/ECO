@@ -56,7 +56,7 @@ class Waste(models.Model):
     status = models.CharField(max_length=20)
 
     def __str__(self) -> str:
-        return str(self.id)
+        return str(self.item)
 
 
 class FoodTable(models.Model):
