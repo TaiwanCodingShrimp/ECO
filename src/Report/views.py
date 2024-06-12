@@ -121,7 +121,7 @@ class ReportView(TemplateView):
         merged_data_outer[self.DataFrameColumns.CARBON_FOOTPRINT] = merged_data_outer[
             "carbon_footprint_leftover"
         ].fillna(0) - merged_data_outer["carbon_footprint_commute"].fillna(0)
-        # Drop unnecessary columns
+
         if not merged_data_outer.empty:
             result_outer = merged_data_outer[["date", "carbon_footprint"]]
             datas = []
