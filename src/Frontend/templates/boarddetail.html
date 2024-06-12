@@ -4,7 +4,12 @@
 <div class="container mt-5">
     <h1>{{ board.topic }}</h1>
     <p>{{ board.content }}</p>
-    <small class="text-muted"> by {{ board.user_id }} at {{ board.date|date:"Y-m-d" }} publish</small>
+
+    <small class="text-muted"> Leftover: {{ board.leftover_item }} </small><br>
+    <small class="text-muted"> Leftover sent to: {{ board.fb_id }}</small><br><br>
+    <small class="text-muted"> Waste: {{ board.waste_item }} </small><br>
+    <small class="text-muted"> Waste sent to: {{ board.wo_id }} </small><br><br>
+    <small class="text-muted"> by {{ board.user }} at {{ board.date|date:"Y-m-d" }} publish</small>
     <hr>
     <a href="{% url 'board' %}" class="btn btn-secondary">Back to Board</a>
 </div>
