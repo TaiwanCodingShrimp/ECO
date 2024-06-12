@@ -19,6 +19,8 @@ from .schema import (
     DailyData,
     LeftoverAllCommuteChart,
     LeftoverDailyData,
+    TotalChart,
+    TotalDailyData,
 )
 
 
@@ -99,6 +101,38 @@ class ReportView(TemplateView):
             datas.append(data)
         chart = AllCommuteChart(
             title="Daily Total Commute Footprint",
+            dataset=datas,
+        )
+        return chart
+
+    def get_total_daily_chart(
+        self,
+        commute_data: pd.DataFrame,
+        leftover_data: pd.DataFrame,
+    ) -> TotalChart:
+        merged_data_outer = pd.merge(
+            leftover_data,
+            commute_data,
+            on=self.DataFrameColumns.DATE,
+            how="outer",
+            suffixes=("_leftover", "_commute"),
+        )
+        # Subtract the carbon_footprint values and handle NaN values appropriately
+        merged_data_outer[self.DataFrameColumns.CARBON_FOOTPRINT] = merged_data_outer[
+            "carbon_footprint_leftover"
+        ].fillna(0) - merged_data_outer["carbon_footprint_commute"].fillna(0)
+        # Drop unnecessary columns
+        result_outer = merged_data_outer[["date", "carbon_footprint"]]
+
+        datas = []
+        for index, row in result_outer.iterrows():
+            data = TotalDailyData(
+                date=row[self.DataFrameColumns.DATE],
+                carbon_footprint=row[self.DataFrameColumns.CARBON_FOOTPRINT],
+            )
+            datas.append(data)
+        chart = TotalChart(
+            title="The carbon_footprint you saved",
             dataset=datas,
         )
         return chart
@@ -195,4 +229,14 @@ class ReportView(TemplateView):
             for dataset in daily_leftover_chart_dict["dataset"]:
                 dataset["date"] = dataset["date"].isoformat()
             context["leftover_matrics"] = json.dumps(daily_leftover_chart_dict)
+
+        if leftover_data.empty and commute_data.empty:
+            context["total_matrics"] = json.dumps({"dataset": []})
+        else:
+            total_chart = self.get_total_daily_chart(commute_data, leftover_data)
+            total_chart_dict = total_chart.dict()
+            for dataset in total_chart_dict["dataset"]:
+                dataset["date"] = dataset["date"].isoformat()
+            context["total_matrics"] = json.dumps(total_chart_dict)
+
         return context

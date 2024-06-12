@@ -28,6 +28,16 @@ class AllCommuteChart(pydantic.BaseModel):
     dataset: List[DailyData]
 
 
+class TotalDailyData(pydantic.BaseModel):
+    date: date
+    carbon_footprint: float
+
+
+class TotalChart(pydantic.BaseModel):
+    title: str
+    dataset: List[TotalDailyData]
+
+
 class LeftoverDailyData(pydantic.BaseModel):
     date: date
     carbon_footprint: float
