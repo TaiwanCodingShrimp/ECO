@@ -23,19 +23,7 @@
 >
 > Step2. For usage. "pre-commit run --all-files"
 
-## Basic GitFlow
-### 處理新的issue，務必要開一個針對這個issue的分支，不要直接對master修改 !!! （This is vital)
-#### Brief Steps:  (run in your terminal or cmd)
-1. git checkout master (switch your local branch to master)
-2. git pull (update your local master)
-3. git checkout -b "輸入你的branch名字" (open a new branch and switch to it)
-4. 開始你的更改
-5. git add
-6. git commit (記得run pre-commit)   如果有安裝好環境，跑commit就會執行了
-7. git push
-8. create your PR(Pull Request)
-9. Request code review ！！！
-11. After aproved ,Do "Squash merge "
+
 > [!NOTE]
 > ＧitFlow is very important !!!! Do follow it !!!
 >
