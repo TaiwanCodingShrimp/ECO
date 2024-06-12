@@ -27,16 +27,26 @@
                 {% csrf_token %}
                 {{ waste_form.management_form }}
                 <div class="form-group">
-                    <label for="id_item">Item: </label>
+                    <label for="id_waste_item">Item: </label>
                     {{ waste_form.item }}
                 </div>
                 <div class="form-group">
-                    <label for="id_sent_to">Sent To: </label>
+                    <label for="id_waste_sent_to">Sent To: </label>
                     {{ waste_form.sent_to }}
                 </div>
                 <div class="form-group">
-                    <label for="id_status">Status: </label>
+                    <label for="id_waste_status">Status: </label>
                     {{ waste_form.status }}
+                </div>
+                <div class="form-group">
+                    <label for="id_waste_date">Time: </label>
+                    <div class="input-group">
+                        {{ waste_form.date_put_in }}
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="dateHelp">YYYY-MM-DD</span>
+                            <button type="button" class="btn btn-outline-secondary" id="set-today-waste">Today</button>
+                        </div>
+                    </div>
                 </div>
                 <button type="submit" name="waste_form" class="bg-dark-green btn btn-primary mt-4">Submit Waste</button>
             </form>
@@ -47,20 +57,30 @@
                 {% csrf_token %}
                 {{ leftover_form.management_form }}
                 <div class="form-group">
-                    <label for="id_item">Item: </label>
+                    <label for="id_leftover_item">Item: </label>
                     {{ leftover_form.item }}
                 </div>
                 <div class="form-group">
-                    <label for="id_portion">Portion: </label>
+                    <label for="id_leftover_portion">Portion: </label>
                     {{ leftover_form.portion }}
                 </div>
                 <div class="form-group">
-                    <label for="id_sent_to">Sent To: </label>
+                    <label for="id_leftover_sent_to">Sent To: </label>
                     {{ leftover_form.sent_to }}
                 </div>
                 <div class="form-group">
-                    <label for="id_status">Status: </label>
+                    <label for="id_leftover_status">Status: </label>
                     {{ leftover_form.status }}
+                </div>
+                <div class="form-group">
+                    <label for="id_leftover_date">Time: </label>
+                    <div class="input-group">
+                        {{ leftover_form.date_put_in }}
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="dateHelp">YYYY-MM-DD</span>
+                            <button type="button" class="btn btn-outline-secondary" id="set-today-leftover">Today</button>
+                        </div>
+                    </div>
                 </div>
                 <button type="submit" name="leftover_form" class="bg-dark-green btn btn-primary">Submit Leftover</button>
             </form>
@@ -72,7 +92,7 @@
                     <li class="list-group-item">Waste: {{ waste.item }} to {{ waste.sent_to }} - {{ waste.status }}</li>
                 {% endfor %}
                 {% for leftover in leftovers %}
-                    <li class="list-group-item">Leftover: {{ leftover.item }} to {{ leftover.sent_to }} - {{ leftover.status }} - Carbon Footprint: {{leftover.food_carbon_footprint}}</li>
+                    <li class="list-group-item">Leftover: {{ leftover.item }} to {{ leftover.sent_to }} - {{ leftover.status }} - Carbon Footprint: {{ leftover.food_carbon_footprint }}</li>
                 {% endfor %}
                 {% if not wastes and not leftovers %}
                     <li class="list-group-item">You have no Donations recorded.</li>
@@ -83,11 +103,31 @@
 </div>
 
 <script>
-    $(document).ready(function(){
-        $('#myTab a').on('click', function (e) {
-            e.preventDefault();
-            $(this).tab('show');
-        });
+    document.addEventListener('DOMContentLoaded', function() {
+        const wasteDateInput = document.querySelector('input[name="{{ waste_form.date_put_in.name }}"]');
+        const leftoverDateInput = document.querySelector('input[name="{{ leftover_form.date_put_in.name }}"]');
+        const setTodayWasteButton = document.getElementById('set-today-waste');
+        const setTodayLeftoverButton = document.getElementById('set-today-leftover');
+
+        if (setTodayWasteButton) {
+            setTodayWasteButton.addEventListener('click', function() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                wasteDateInput.value = `${year}-${month}-${day}`;
+            });
+        }
+
+        if (setTodayLeftoverButton) {
+            setTodayLeftoverButton.addEventListener('click', function() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                leftoverDateInput.value = `${year}-${month}-${day}`;
+            });
+        }
     });
 </script>
 {% endblock %}
